@@ -339,11 +339,11 @@ def get_expected_pts(comparison,shotchart,season_df,game_df):
 
         value=int(value)
         hex = get_hex(comparison,x,y)
+        st.write(hex)
         x_pts += value*comparison[hex]['player_fg']
 
 
     x_pts += game_df['FTA'].values[0] * season_df['FT_PCT'].mean()
-    st.write(x_pts)
     return round(x_pts,1)
 
 def get_player_season_averages(season_df):
