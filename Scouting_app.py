@@ -164,10 +164,11 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
         reduce_C_function=np.sum,
         mincnt=0
     )
-    
+
     total_successes = hb_successes.get_array()
     plt.close()
-    st.write(total_attempts,total_successes)
+    st.write("total attempts : ",total_attempts)
+    st.write("total successes :",total_successes)
     st.write(1)
     # Compute FG% per bin
     fg_percentages = np.divide(
