@@ -14,7 +14,7 @@ from io import BytesIO, TextIOWrapper
 import csv
 import streamlit as st
 import matplotlib
-matplotlib.use('TkAgg')
+matplotlib.use('Agg')
 from nba_api.stats.endpoints import shotchartdetail
 from nba_api.stats.endpoints import playergamelog
 from nba_api.stats.static import teams
