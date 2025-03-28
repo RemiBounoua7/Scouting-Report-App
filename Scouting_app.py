@@ -167,9 +167,7 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
 
     total_successes = hb_successes.get_array()
     plt.close()
-    st.write("total attempts : ",total_attempts)
-    st.write("total successes :",total_successes)
-    st.write(1)
+    
     # Compute FG% per bin
     fg_percentages = np.divide(
     total_successes, 
@@ -177,6 +175,7 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
     out=np.zeros_like(total_successes, dtype=float), 
     where=total_attempts > 0
     )
+    st.write("FG% : ",fg_percentages)
     # Normalize shot volumes (for this dataset)
     norm_volumes = volumes / volumes.max() if volumes.max() > 0 else volumes
 
