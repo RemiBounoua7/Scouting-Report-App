@@ -455,10 +455,11 @@ try:
         else:
             ax2.scatter(x,y,color='red', marker="x",zorder=9)
     
+    st.write(get_player_season_averages(selected_player_season_df))
     st.pyplot(figure)
     figure.text(0.3, 0.03, get_player_season_averages(selected_player_season_df), horizontalalignment="center",fontdict={'fontsize': 7})
     figure.text(.685, 0.03, get_player_game_stats(selected_game_df), horizontalalignment="center",fontdict={'fontsize': 7})
-    #st.write(1)
+
     image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
     image_ax.imshow(player_photo)
     image_ax.axis("off")  # Hide axes for the image
