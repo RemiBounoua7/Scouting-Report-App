@@ -356,7 +356,7 @@ def get_player_season_averages(season_df):
     TS_PCT = round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1)
 
     stats_str = f"""Averages {pts}pts on {_2ptFG_PCT}/{_3ptFG_PCT}/{_FT_PCT} in {minutes}min
-TS% = {TS_PCT}%"""
+{TS_PCT} TS%"""
     
 
     return stats_str
@@ -455,7 +455,8 @@ try:
         else:
             ax2.scatter(x,y,color='red', marker="x",zorder=9)
     
-    st.write(get_player_season_averages(selected_player_season_df))
+    #st.write(get_player_season_averages(selected_player_season_df))
+    figure.text(0.3,0.03,"RIEN")
     st.pyplot(figure)
     figure.text(0.3, 0.03, get_player_season_averages(selected_player_season_df), horizontalalignment="center",fontdict={'fontsize': 7})
     figure.text(.685, 0.03, get_player_game_stats(selected_game_df), horizontalalignment="center",fontdict={'fontsize': 7})
