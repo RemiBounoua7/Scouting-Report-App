@@ -1,5 +1,7 @@
-matplotlib
+numpy
 pandas
+datetime
 nba_api
 csv
-numpy
+matplotlib
+
