@@ -132,8 +132,6 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
             'norm_volumes': ndarray of normalized shot volumes (0-1) in this dataset.
             'fg_percentages': ndarray of FG% per hexagon.
     """
-    st.write(df[shot_col].dtype)
-    st.write(df[shot_col].isnull().sum())
     # Create hexbin for shot volume (count per bin)
     hb_counts = plt.hexbin(
         df[x_col], df[y_col],
@@ -156,7 +154,7 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
     )
     total_attempts = hb_attempts.get_array()
     plt.close()
-
+    
     # Calculate total successes per bin (using shot made flag)
     hb_successes = plt.hexbin(
         df[x_col], df[y_col],
@@ -168,7 +166,7 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
     )
     total_successes = hb_successes.get_array()
     plt.close()
-    
+    st.write(total_attempts,total_successes)
     # Compute FG% per bin
     fg_percentages = np.divide(
     total_successes, 
@@ -205,7 +203,7 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
     """
     # Calculate global stats (all shots)
     global_stats = calculate_hexbin_stats(df, x_col, y_col, shot_col, grid_size, extent)
-    st.write(global_stats)
+
     # Calculate player stats (filtered)
     player_df = df[df['PLAYER_NAME'] == player_name]
 
@@ -457,7 +455,6 @@ player_photo=Image.open(urlopen(player_photo_url))
 
 
 comparison = compare_player_to_global(df, selected_player)
-st.write(comparison)
 plot_comparison(comparison,selected_player, fig=figure, ax=ax1)
 for index,(x,y,res,value) in game_shotchart.iterrows():
     if res==1:
