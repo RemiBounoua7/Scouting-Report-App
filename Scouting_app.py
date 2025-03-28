@@ -199,7 +199,7 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
     """
     # Calculate global stats (all shots)
     global_stats = calculate_hexbin_stats(df, x_col, y_col, shot_col, grid_size, extent)
-    
+    st.write(global_stats)
     # Calculate player stats (filtered)
     player_df = df[df['PLAYER_NAME'] == player_name]
 
