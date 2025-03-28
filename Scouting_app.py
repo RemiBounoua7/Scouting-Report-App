@@ -445,37 +445,35 @@ player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected
 player_photo=Image.open(urlopen(player_photo_url))
 
 
-try:
-    comparison = compare_player_to_global(df, selected_player)
-    plot_comparison(comparison,selected_player, fig=figure, ax=ax1)
-    for index,(x,y,res,value) in game_shotchart.iterrows():
-        if res==1:
-            #ax2.scatter(x,y,color='green',marker='o')
-            ax2.scatter(x,y,facecolors='none', edgecolors='g',zorder=10)
-        else:
-            ax2.scatter(x,y,color='red', marker="x",zorder=9)
-    
-    #st.write(get_player_season_averages(selected_player_season_df))
-    season_stats = get_player_season_averages(selected_player_season_df)
-    game_stats = get_player_game_stats(selected_game_df)
-    figure.text(0.3, 0.03, season_stats, horizontalalignment="center",fontdict={'fontsize': 7})
-    st.pyplot(figure)
-    figure.text(.685, 0.03, game_stats, horizontalalignment="center",fontdict={'fontsize': 7})
-    
-    
-    st.image(player_photo)
-    image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
-    image_ax.imshow(player_photo)
-    image_ax.axis("off")  # Hide axes for the image
 
-    # Adjust layout to prevent overlap
-    plt.tight_layout()
+comparison = compare_player_to_global(df, selected_player)
+plot_comparison(comparison,selected_player, fig=figure, ax=ax1)
+for index,(x,y,res,value) in game_shotchart.iterrows():
+    if res==1:
+        #ax2.scatter(x,y,color='green',marker='o')
+        ax2.scatter(x,y,facecolors='none', edgecolors='g',zorder=10)
+    else:
+        ax2.scatter(x,y,color='red', marker="x",zorder=9)
 
-    st.pyplot(figure)
+#st.write(get_player_season_averages(selected_player_season_df))
+season_stats = get_player_season_averages(selected_player_season_df)
+game_stats = get_player_game_stats(selected_game_df)
+figure.text(0.3, 0.03, season_stats, horizontalalignment="center",fontdict={'fontsize': 7})
+st.pyplot(figure)
+figure.text(.685, 0.03, game_stats, horizontalalignment="center",fontdict={'fontsize': 7})
 
 
-except:
-    st.write('Chose a player')
+st.image(player_photo)
+image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
+image_ax.imshow(player_photo)
+image_ax.axis("off")  # Hide axes for the image
+
+# Adjust layout to prevent overlap
+plt.tight_layout()
+
+st.pyplot(figure)
+
+
 
 
 # Button to save and download the figure
