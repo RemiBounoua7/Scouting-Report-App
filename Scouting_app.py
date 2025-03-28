@@ -448,6 +448,7 @@ player_photo=Image.open(urlopen(player_photo_url))
 
 
 comparison = compare_player_to_global(df, selected_player)
+st.write(comparison)
 plot_comparison(comparison,selected_player, fig=figure, ax=ax1)
 for index,(x,y,res,value) in game_shotchart.iterrows():
     if res==1:
