@@ -132,6 +132,8 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
             'norm_volumes': ndarray of normalized shot volumes (0-1) in this dataset.
             'fg_percentages': ndarray of FG% per hexagon.
     """
+    st.write(df[shot_col].dtype)
+    st.write(df[shot_col].isnull().sum())
     # Create hexbin for shot volume (count per bin)
     hb_counts = plt.hexbin(
         df[x_col], df[y_col],
