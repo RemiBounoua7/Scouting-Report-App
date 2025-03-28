@@ -18,6 +18,8 @@ matplotlib.use('Agg')
 from nba_api.stats.endpoints import shotchartdetail
 from nba_api.stats.endpoints import playergamelog
 from nba_api.stats.static import teams
+from PIL import Image
+
 
 
 def load_nba_data(path: Union[Path, str] = Path.cwd(),
@@ -439,7 +441,8 @@ ax2.set_title(f"{selected_player} {selected_game_name} ({selected_game_df['WL'].
 ax3.set_axis_off()
 
 
-player_photo = plt.imread(f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760")
+player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760"
+player_photo=Image.open(urlopen(player_photo_url))
 
 
 try:
