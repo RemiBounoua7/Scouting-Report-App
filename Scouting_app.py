@@ -446,10 +446,11 @@ player_photo=Image.open(urlopen(player_photo_url))
 
 
 try:
-
+    st.write(1)
     comparison = compare_player_to_global(df, selected_player)
+    st.write(1)
     plot_comparison(comparison,selected_player, fig=figure, ax=ax1)
-    
+    st.write(1)
     for index,(x,y,res,value) in game_shotchart.iterrows():
         if res==1:
             #ax2.scatter(x,y,color='green',marker='o')
@@ -457,9 +458,10 @@ try:
         else:
             ax2.scatter(x,y,color='red', marker="x",zorder=9)
     
-    
+    st.write(1)
     figure.text(0.3, 0.03, get_player_season_averages(selected_player_season_df), horizontalalignment="center",fontdict={'fontsize': 7})
     figure.text(.685, 0.03, get_player_game_stats(selected_game_df), horizontalalignment="center",fontdict={'fontsize': 7})
+    st.write(1)
     image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
     image_ax.imshow(player_photo)
     image_ax.axis("off")  # Hide axes for the image
