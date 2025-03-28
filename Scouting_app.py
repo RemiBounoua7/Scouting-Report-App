@@ -133,7 +133,6 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
             'fg_percentages': ndarray of FG% per hexagon.
     """
     # Create hexbin for shot volume (count per bin)
-    st.write(df,x_col,y_col)
     hb_counts = plt.hexbin(
         df[x_col], df[y_col],
         gridsize=grid_size,
@@ -181,7 +180,7 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
         'norm_volumes': norm_volumes,
         'fg_percentages': fg_percentages
     }
-    st.write(stats_dict)
+
     return stats_dict
 
 def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE_FLAG',
@@ -335,11 +334,12 @@ def get_hex(comparison,x,y):
 
 def get_expected_pts(comparison,shotchart,season_df,game_df):
     x_pts=0
-    
+    st.write(game_df,season_df,shotchart)
     for index,(x,y,res,value) in shotchart.iterrows():
 
         value=int(value)
         hex = get_hex(comparison,x,y)
+        st.write(value,comparison[hex]['player_fg'])
         x_pts += value*comparison[hex]['player_fg']
 
 
