@@ -456,7 +456,8 @@ try:
             ax2.scatter(x,y,color='red', marker="x",zorder=9)
     
     #st.write(get_player_season_averages(selected_player_season_df))
-    figure.text(0.3,0.03,"RIEN")
+    figure.text(0.3,0.03,"RIEN", horizontalalignment="center",fontdict={'fontsize': 7})
+    figure.text(.685, 0.03,"RIEN", horizontalalignment="center")
     st.pyplot(figure)
     figure.text(0.3, 0.03, get_player_season_averages(selected_player_season_df), horizontalalignment="center",fontdict={'fontsize': 7})
     figure.text(.685, 0.03, get_player_game_stats(selected_game_df), horizontalalignment="center",fontdict={'fontsize': 7})
