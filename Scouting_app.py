@@ -327,7 +327,7 @@ def get_hex(comparison,x,y):
     res=((comparison[0]['x_center']-x)**2+(comparison[0]['y_center']-y)**2)**.5
     for k in range(1,len(comparison)):
         if ((comparison[k]['x_center']-x)**2+(comparison[k]['y_center']-y)**2)**.5 < res:
-            
+            st.write(comparison[k]['player_fg'])
             if not np.isnan(comparison[k]['player_fg']):
                 st.write(f"Hex at {x},{y}", "hex center at ",comparison[k]['x_center'],comparison[k]['y_center'])
                 index=k
