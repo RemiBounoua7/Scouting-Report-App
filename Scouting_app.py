@@ -327,6 +327,7 @@ def get_hex(comparison,x,y):
     res=((comparison[0]['x_center']-x)**2+(comparison[0]['y_center']-y)**2)**.5
     for k in range(1,len(comparison)):
         if ((comparison[k]['x_center']-x)**2+(comparison[k]['y_center']-y)**2)**.5 < res:
+            st.write(f"Hex at {x},{y}", "hex center at ",comparison[k]['x_center'],comparison[k]['y_center'])
             if not np.isnan(comparison[k]['player_fg']):
                 index=k
                 res=((comparison[k]['x_center']-x)**2+(comparison[k]['y_center']-y)**2)**.5
@@ -334,12 +335,11 @@ def get_hex(comparison,x,y):
 
 def get_expected_pts(comparison,shotchart,season_df,game_df):
     x_pts=0
-    st.write(game_df,season_df,shotchart)
+
     for index,(x,y,res,value) in shotchart.iterrows():
 
         value=int(value)
         hex = get_hex(comparison,x,y)
-        st.write(value,comparison[hex]['player_fg'])
         x_pts += value*comparison[hex]['player_fg']
 
 
