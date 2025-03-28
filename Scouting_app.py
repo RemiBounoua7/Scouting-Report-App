@@ -226,8 +226,8 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
             pvol = player_stats['volumes'][match_idx]
             pfg = player_stats['fg_percentages'][match_idx]
         else:
-            pvol = np.nan
-            pfg = np.nan
+            pvol = 0
+            pfg = 0
 
         # For the comparison you can compute differences or ratios. Here we compute differences.
         diff_volume = pvol - gvol if not np.isnan(pvol) else np.nan
