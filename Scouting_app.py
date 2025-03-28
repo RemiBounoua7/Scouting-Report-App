@@ -239,7 +239,10 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
             'diff_volume': diff_volume,
             'diff_fg': diff_fg
         })
-    st.write(comparison)
+    comparison = [
+    {key: (0 if np.isnan(value) else value) for key, value in comp.items()}
+    for comp in comparison
+]
     return comparison
 
 def draw_courts(ax=None, color='black', lw=2, outer_lines=False):
