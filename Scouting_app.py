@@ -181,7 +181,6 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
     # Normalize shot volumes (for this dataset)
     norm_volumes = volumes / volumes.max() if volumes.max() > 0 else 0
 
-    st.write(total_attempts,total_successes,fg_percentages)
 
     stats_dict = {
         'x_centers': x_centers,
@@ -240,6 +239,9 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
         diff_volume = pvol - gvol if not np.isnan(pvol) else np.nan
         diff_fg = pfg - gfg if not np.isnan(pfg) else np.nan
         
+        st.write(f"Pvol ={pvol} vs Gvol = {gvol} ")
+        st.write(f"Pfg ={pfg} vs Gfg = {gfg} ")
+
         comparison.append({
             'x_center': gx,
             'y_center': gy,
