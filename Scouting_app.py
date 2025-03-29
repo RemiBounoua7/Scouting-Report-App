@@ -476,7 +476,6 @@ for index,(x,y,res,value) in game_shotchart.iterrows():
 season_stats = get_player_season_averages(selected_player_season_df)
 game_stats = get_player_game_stats(selected_game_df)
 figure.text(0.3, 0.03, season_stats, horizontalalignment="center",fontdict={'fontsize': 7})
-st.pyplot(figure)
 figure.text(.685, 0.03, game_stats, horizontalalignment="center",fontdict={'fontsize': 7})
 
 
