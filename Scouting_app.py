@@ -19,7 +19,6 @@ from nba_api.stats.endpoints import shotchartdetail
 from nba_api.stats.endpoints import playergamelog
 from nba_api.stats.static import teams
 from PIL import Image
-matplotlib.font_manager.fontManager.addfont("/usr/share/fonts/noto/NotoColorEmoji.ttf")
 
 
 
@@ -191,7 +190,6 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
         'fg_percentages': fg_percentages
     }
     return stats_dict
-
 
 def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE_FLAG',
                              grid_size=20, extent=(-250, 250,-50,300)):
@@ -385,8 +383,8 @@ def get_player_game_stats(game_df):
     TS_PCT = round(50*(pts)/(game_df['FGA'].values[0]+game_df['FTA'].values[0]),1)
 
 
-    stats_str = f"""{pts} PTS from {x_pts} xPTS in {minutes}min | 🔥   \N{FIRE}"
-    {game_df['FGM'].values[0]}/{game_df['FGA'].values[0]} {game_df['FG3M'].values[0]}/{game_df['FG3A'].values[0]} {game_df['FTM'].values[0]}/{game_df['FTA'].values[0]} | {TS_PCT} TS%"""
+    stats_str = f"""{pts} PTS from {x_pts} xPTS in {minutes}min
+{game_df['FGM'].values[0]}/{game_df['FGA'].values[0]} {game_df['FG3M'].values[0]}/{game_df['FG3A'].values[0]} {game_df['FTM'].values[0]}/{game_df['FTA'].values[0]} | {TS_PCT} TS%"""
     
     return stats_str
 
