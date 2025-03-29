@@ -239,9 +239,10 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
         diff_volume = pvol - gvol if not np.isnan(pvol) else np.nan
         diff_fg = pfg - gfg if not np.isnan(pfg) else np.nan
         
+        st.write(f"hex {x},{y}:")
         st.write(f"Pvol ={pvol} vs Gvol = {gvol} ")
         st.write(f"Pfg ={pfg} vs Gfg = {gfg} ")
-
+        st.write(' ')
         comparison.append({
             'x_center': gx,
             'y_center': gy,
