@@ -239,10 +239,6 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
         diff_volume = pvol - gvol if not np.isnan(pvol) else np.nan
         diff_fg = pfg - gfg if not np.isnan(pfg) else np.nan
         
-        st.write(f"hex {gx},{gy}:")
-        st.write(f"Pvol ={pvol} vs Gvol = {gvol} ")
-        st.write(f"Pfg ={pfg} vs Gfg = {gfg} ")
-        st.write(' - ')
         comparison.append({
             'x_center': gx,
             'y_center': gy,
@@ -484,7 +480,6 @@ st.pyplot(figure)
 figure.text(.685, 0.03, game_stats, horizontalalignment="center",fontdict={'fontsize': 7})
 
 
-st.image(player_photo)
 image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
 image_ax.imshow(player_photo)
 image_ax.axis("off")  # Hide axes for the image
