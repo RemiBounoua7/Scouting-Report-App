@@ -178,7 +178,7 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
     # Normalize shot volumes (for this dataset)
     norm_volumes = volumes / volumes.max() if volumes.max() > 0 else 0
 
-    st.write(f"Hex {x},{y} : vol={total_attempts}, succ={total_successes}, fg_%={fg_percentages} ")
+    st.write(f"vol={total_attempts}, succ={total_successes}, fg_%={fg_percentages} ")
 
     stats_dict = {
         'x_centers': x_centers,
