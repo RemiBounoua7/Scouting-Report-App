@@ -182,7 +182,7 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
     st.write(f"len(succ) = {total_successes.size()}")
     st.write(f"len(fg%) = {fg_percentages.size()}")
     st.write(f"len(norm) = {norm_volumes.size()}")
-
+    st.write(1)
     stats_dict = {
         'x_centers': x_centers,
         'y_centers': y_centers,
