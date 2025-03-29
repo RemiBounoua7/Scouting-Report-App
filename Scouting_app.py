@@ -177,6 +177,11 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
     )
     # Normalize shot volumes (for this dataset)
     norm_volumes = volumes / volumes.max() if volumes.max() > 0 else 0
+    st.write(f"len(attempts) = {total_attempts.size()}")
+    st.write(f"len(volumes) = {volumes.size()}")
+    st.write(f"len(succ) = {total_successes.size()}")
+    st.write(f"len(fg%) = {fg_percentages.size()}")
+    st.write(f"len(norm) = {norm_volumes.size()}")
 
     stats_dict = {
         'x_centers': x_centers,
@@ -208,7 +213,7 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
     player_df = df[df['PLAYER_NAME'] == player_name]
 
     player_stats = calculate_hexbin_stats(player_df, x_col, y_col, shot_col, grid_size, extent)
-    st.write(player_stats)
+
     # Prepare output by matching bins using the hexagon centers.
     # We assume that the global hexbin grid covers more bins; for each global bin, try to find a matching player bin.
     comparison = []
