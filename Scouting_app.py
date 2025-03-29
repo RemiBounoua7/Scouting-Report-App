@@ -377,20 +377,16 @@ def get_player_season_averages(season_df):
 
 def get_player_game_stats(game_df):
     pts = game_df['PTS'].values[0]
-    #x_pts = get_expected_pts(comparison, game_shotchart,selected_player_season_df,selected_game_df)
+    x_pts = get_expected_pts(comparison, game_shotchart,selected_player_season_df,selected_game_df)
 
     minutes = game_df['MIN'].values[0]
 
     TS_PCT = round(50*(pts)/(game_df['FGA'].values[0]+game_df['FTA'].values[0]),1)
 
 
-    #    stats_str = f"""{pts} PTS from {x_pts} xPTS in {minutes}min
-    #{game_df['FGM'].values[0]}/{game_df['FGA'].values[0]} {game_df['FG3M'].values[0]}/{game_df['FG3A'].values[0]} {game_df['FTM'].values[0]}/{game_df['FTA'].values[0]} | {TS_PCT} TS%"""
+    stats_str = f"""{pts} PTS from {x_pts} xPTS in {minutes}min
+    {game_df['FGM'].values[0]}/{game_df['FGA'].values[0]} {game_df['FG3M'].values[0]}/{game_df['FG3A'].values[0]} {game_df['FTM'].values[0]}/{game_df['FTA'].values[0]} | {TS_PCT} TS%"""
     
-    stats_str = f"""{pts} PTS in {minutes}min
-{game_df['FGM'].values[0]}/{game_df['FGA'].values[0]} {game_df['FG3M'].values[0]}/{game_df['FG3A'].values[0]} {game_df['FTM'].values[0]}/{game_df['FTA'].values[0]} | {TS_PCT} TS%"""
-    
-
     return stats_str
 
 
