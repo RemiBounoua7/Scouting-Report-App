@@ -499,9 +499,9 @@ c1,c2,c3 = st.columns(3)
 with st.container():
     c1.write("[Season Film](%s)" % season_video_link)
     c2.download_button(
-    label="PHOTO",
-    data=buffer,
-    file_name=f"{selected_player} shot chart (season & {selected_game_name}).png",
+        label="Save Graphs",
+        data=buffer,
+        file_name=f"{selected_player} shot chart {selected_game_name}.png",
     )
     c3.write("[Game Film](%s)" % game_video_link)
 
