@@ -206,9 +206,9 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
 
     # Calculate player stats (filtered)
     player_df = df[df['PLAYER_NAME'] == player_name]
-    st.write(player_df)
+
     player_stats = calculate_hexbin_stats(player_df, x_col, y_col, shot_col, grid_size, extent)
-    
+    st.write(player_stats)
     # Prepare output by matching bins using the hexagon centers.
     # We assume that the global hexbin grid covers more bins; for each global bin, try to find a matching player bin.
     comparison = []
