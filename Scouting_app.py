@@ -353,6 +353,9 @@ def get_expected_pts(comparison,shotchart,season_df,game_df):
 
         value=int(value)
         hex = get_hex(comparison,x,y)
+        st.write(hex)
+        st.write(comparison[hex])
+        st.write(comparison[hex]['player_fg'])
         x_pts += value*comparison[hex]['player_fg']
 
 
