@@ -185,7 +185,6 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
         'norm_volumes': norm_volumes,
         'fg_percentages': fg_percentages
     }
-    st.write("dict : ",stats_dict)
     return stats_dict
 
 def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE_FLAG',
@@ -207,7 +206,7 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
 
     # Calculate player stats (filtered)
     player_df = df[df['PLAYER_NAME'] == player_name]
-
+    st.write(player_df)
     player_stats = calculate_hexbin_stats(player_df, x_col, y_col, shot_col, grid_size, extent)
     
     # Prepare output by matching bins using the hexagon centers.
