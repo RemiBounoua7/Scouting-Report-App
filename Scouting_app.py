@@ -19,6 +19,7 @@ from nba_api.stats.endpoints import shotchartdetail
 from nba_api.stats.endpoints import playergamelog
 from nba_api.stats.static import teams
 from PIL import Image
+matplotlib.font_manager.fontManager.addfont("/usr/share/fonts/noto/NotoColorEmoji.ttf")
 
 
 
