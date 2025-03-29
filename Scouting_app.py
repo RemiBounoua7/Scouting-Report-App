@@ -119,7 +119,7 @@ def load_nba_data(path: Union[Path, str] = Path.cwd(),
     else:
         return None
 
-def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE_FLAG',
+'''def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE_FLAG',
                            grid_size=20, extent=(-250, 250, -50, 300)):
     """
     Calculate hexbin stats for a given set of shots.
@@ -188,6 +188,82 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
         'fg_percentages': fg_percentages
     }
     return stats_dict
+'''
+def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE_FLAG',
+                           grid_size=20, extent=(-250, 250, -50, 300)):
+    """
+    Calculate hexbin stats for a given set of shots.
+
+    Returns:
+        stats_dict (dict): Dictionary with keys:
+            'x_centers': ndarray of hexagon center x-coordinates.
+            'y_centers': ndarray of hexagon center y-coordinates.
+            'volumes': ndarray of raw shot counts per hexagon.
+            'norm_volumes': ndarray of normalized shot volumes (0-1) in this dataset.
+            'fg_percentages': ndarray of FG% per hexagon.
+    """
+    # Replace masked or NaN values with 0
+    df = df.copy()
+    df[x_col] = df[x_col].fillna(0)
+    df[y_col] = df[y_col].fillna(0)
+    df[shot_col] = df[shot_col].fillna(0)
+
+    # Create hexbin for shot volume (count per bin)
+    hb_counts = plt.hexbin(
+        df[x_col], df[y_col],
+        gridsize=grid_size,
+        extent=extent,
+        mincnt=1
+    )
+    volumes = np.nan_to_num(hb_counts.get_array(), nan=0)
+    x_centers, y_centers = hb_counts.get_offsets().T
+    plt.close()
+
+    # Calculate total attempts per bin (using ones)
+    hb_attempts = plt.hexbin(
+        df[x_col], df[y_col],
+        C=np.ones(len(df)),
+        gridsize=grid_size,
+        extent=extent,
+        reduce_C_function=np.sum,
+        mincnt=0
+    )
+    total_attempts = np.nan_to_num(hb_attempts.get_array(), nan=0)
+    plt.close()
+
+    # Calculate total successes per bin (using shot made flag)
+    hb_successes = plt.hexbin(
+        df[x_col], df[y_col],
+        C=df[shot_col],
+        gridsize=grid_size,
+        extent=extent,
+        reduce_C_function=np.sum,
+        mincnt=0
+    )
+    total_successes = np.nan_to_num(hb_successes.get_array(), nan=0)
+    plt.close()
+
+    # Compute FG% per bin
+    fg_percentages = np.divide(
+        total_successes, 
+        total_attempts, 
+        out=np.zeros_like(total_successes, dtype=float), 
+        where=total_attempts > 0
+    )
+
+    # Normalize shot volumes (for this dataset)
+    norm_volumes = volumes / volumes.max() if volumes.max() > 0 else np.zeros_like(volumes)
+
+    st.write(f"vol={total_attempts}, succ={total_successes}, fg_%={fg_percentages} ")
+
+    stats_dict = {
+        'x_centers': x_centers,
+        'y_centers': y_centers,
+        'volumes': volumes,
+        'norm_volumes': norm_volumes,
+        'fg_percentages': fg_percentages
+    }
+    return stats_dict
 
 def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE_FLAG',
                              grid_size=20, extent=(-250, 250,-50,300)):
@@ -230,6 +306,7 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
         else:
             pvol = 0
             pfg = 0
+
 
         # For the comparison you can compute differences or ratios. Here we compute differences.
         diff_volume = pvol - gvol if not np.isnan(pvol) else np.nan
