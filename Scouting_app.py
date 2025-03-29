@@ -384,7 +384,7 @@ def get_player_game_stats(game_df):
     TS_PCT = round(50*(pts)/(game_df['FGA'].values[0]+game_df['FTA'].values[0]),1)
 
 
-    stats_str = f"""{pts} PTS from {x_pts} xPTS in {minutes}min
+    stats_str = f"""{pts} PTS from {x_pts} xPTS in {minutes}min | 🔥   \N{FIRE}"
     {game_df['FGM'].values[0]}/{game_df['FGA'].values[0]} {game_df['FG3M'].values[0]}/{game_df['FG3A'].values[0]} {game_df['FTM'].values[0]}/{game_df['FTA'].values[0]} | {TS_PCT} TS%"""
     
     return stats_str
