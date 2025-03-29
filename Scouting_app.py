@@ -137,7 +137,7 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
         df[x_col], df[y_col],
         gridsize=grid_size,
         extent=extent,
-        mincnt=1
+        mincnt=0
     )
     volumes = np.nan_to_num(hb_counts.get_array(), nan=0)
 
@@ -242,7 +242,7 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
         st.write(f"hex {gx},{gy}:")
         st.write(f"Pvol ={pvol} vs Gvol = {gvol} ")
         st.write(f"Pfg ={pfg} vs Gfg = {gfg} ")
-        st.write(' ')
+        st.write(' - ')
         comparison.append({
             'x_center': gx,
             'y_center': gy,
