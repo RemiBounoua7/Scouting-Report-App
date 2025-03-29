@@ -177,11 +177,6 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
     )
     # Normalize shot volumes (for this dataset)
     norm_volumes = volumes / volumes.max() if volumes.max() > 0 else 0
-    st.write(f"len(attempts) = {len(total_attempts)}")
-    st.write(f"len(volumes) = {len(volumes)}")
-    st.write(f"len(succ) = {len(total_successes)}")
-    st.write(f"len(fg%) = {len(fg_percentages)}")
-    st.write(f"len(norm) = {len(norm_volumes)}")
 
     stats_dict = {
         'x_centers': x_centers,
@@ -233,7 +228,7 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
         else:
             pvol = 0
             pfg = 0
-
+        st.write(f"Hex {gx},{gy} : pvol={pvol} vs gvol={gvol}, pfg={pfg} vs gfg={gfg}")
         # For the comparison you can compute differences or ratios. Here we compute differences.
         diff_volume = pvol - gvol if not np.isnan(pvol) else np.nan
         diff_fg = pfg - gfg if not np.isnan(pfg) else np.nan
