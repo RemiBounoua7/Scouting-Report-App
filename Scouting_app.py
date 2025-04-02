@@ -316,7 +316,7 @@ def plot_comparison(comparison,player_name, fig,ax):
     custom_colors = ['#192BC2', '#78C0E0', '#FCDC4D', '#CB793A', '#9A031E']
 
     cmap = ListedColormap(custom_colors)
-    fg_intervals = np.linspace(-.5, .5, len(custom_colors) + 1)
+    fg_intervals = np.linspace(-.2, .2, len(custom_colors) + 1)
     
         
     for bin_stat in comparison:
