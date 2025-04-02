@@ -368,8 +368,8 @@ def get_player_season_averages(season_df):
 
     TS_PCT = round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1)
 
-    stats_str = f"""Averages {pts}pts on {_2ptFG_PCT}/{_3ptFG_PCT}/{_FT_PCT} in {minutes}min
-{round(season_df['FGM'].mean())}/{round(season_df['FGA'].mean())} {round(season_df['FG3M'].mean())}/{round(season_df['FG3A'].mean())} {round(season_df['FTM'].mean())}/{round(season_df['FTA'].mean())} | {TS_PCT} TS%"""
+    stats_str = f"""Averages {pts}pts in {minutes}min
+{_2ptFG_PCT}/{_3ptFG_PCT}/{_FT_PCT} | {TS_PCT} TS%"""
      
 
     return stats_str
@@ -514,7 +514,4 @@ Size represents volume (the more a player shoots from there, the bigger the hexa
 - TS% : Measure of a player's efficiency. Dependant on PTS, FTA and FGA.
 
 - xPTS : How many points a player "should have scored" based on his shot selection and season averages in these zones.
-
-- Hotness emoji : Measure of a specific performance relative to the player's season averages. Difference in points scored and expected
-points, with a weight put on volume. Meaning if a player has better efficiency than his average suggest he is hot, but if he has it on high volume he is hotter than if he had it on low volume.
 """)
