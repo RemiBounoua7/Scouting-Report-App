@@ -403,7 +403,11 @@ df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
 df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
 
 # Changer l'index pour SGA on va dire
-selected_player = st.selectbox("",sorted(df['PLAYER_NAME'].unique()),index=477,placeholder="Select a player ...")
+selected_player = st.selectbox(
+    "Select the player",
+    sorted(df['PLAYER_NAME'].unique()),
+    index=477,
+    placeholder="Select a player ...")
 
 selected_player_id = df[df['PLAYER_NAME']==selected_player].iloc[0]['PLAYER_ID']
 
@@ -411,7 +415,7 @@ selected_player_season_df = playergamelog.PlayerGameLog(player_id=selected_playe
 selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
 
 selected_game_name = st.selectbox(
-    "Chose a Game to plot a specific shotchart",
+    "Pick a Game",
     selected_player_season_df['Matchup + Date'],
     index=0,
     placeholder="Select game ...",
