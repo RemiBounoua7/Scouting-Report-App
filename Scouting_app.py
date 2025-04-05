@@ -380,7 +380,7 @@ def get_player_game_stats(game_df):
 
     minutes = game_df['MIN'].values[0]
 
-    TS_PCT = round(50*(pts)/(game_df['FGA'].values[0]+game_df['FTA'].values[0]),1)
+    TS_PCT = round(50*(pts)/(game_df['FGA'].values[0]+.44*game_df['FTA'].values[0]),1)
 
 
     stats_str = f"""{pts} PTS from {x_pts} xPTS in {minutes}min
