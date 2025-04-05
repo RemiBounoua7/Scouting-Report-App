@@ -21,7 +21,7 @@ from nba_api.stats.static import teams
 from PIL import Image
 
 
-
+@st.cache_data
 def load_nba_data(path: Union[Path, str] = Path.cwd(),
                   seasons: Union[Sequence, int] = range(1996, 2024),
                   data: Union[Sequence, str] = ("datanba", "nbastats", "pbpstats",
