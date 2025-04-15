@@ -404,7 +404,7 @@ df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
 selected_player = st.selectbox(
     "Select the player",
     sorted(df['PLAYER_NAME'].unique()),
-    index=477,
+    index=487,
     placeholder="Select a player ...")
 
 selected_player_id = df[df['PLAYER_NAME']==selected_player].iloc[0]['PLAYER_ID']
