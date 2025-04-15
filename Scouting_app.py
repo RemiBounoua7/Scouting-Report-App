@@ -1,10 +1,8 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap,Normalize
-from matplotlib import cm
-from matplotlib.patches import RegularPolygon
-from matplotlib.patches import Circle, Rectangle, Arc
+from matplotlib.colors import ListedColormap
+from matplotlib.patches import RegularPolygon,Circle, Rectangle, Arc
 from pathlib import Path
 from itertools import product
 from urllib.request import urlopen
@@ -14,11 +12,12 @@ from io import BytesIO, TextIOWrapper
 import csv
 import streamlit as st
 import matplotlib
-matplotlib.use('Agg')
-from nba_api.stats.endpoints import shotchartdetail
-from nba_api.stats.endpoints import playergamelog
+from nba_api.stats.endpoints import shotchartdetail,playergamelog
 from nba_api.stats.static import teams
 from PIL import Image
+
+matplotlib.use('Agg')
+
 
 
 @st.cache_data
@@ -301,7 +300,7 @@ def draw_courts(ax=None, color='black', lw=2, outer_lines=False):
 
     return ax
 
-def plot_comparison(comparison,player_name, fig,ax):
+def plot_comparison(comparison,ax):
     """
     Plot the comparison statistic by drawing hexagons.
     
@@ -402,7 +401,6 @@ df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
 # Reverse left-right because of data gathering from the NBA is the other way around.
 df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
 
-# Changer l'index pour SGA on va dire
 selected_player = st.selectbox(
     "Select the player",
     sorted(df['PLAYER_NAME'].unique()),
@@ -430,7 +428,7 @@ game_shotchart = shotchartdetail.ShotChartDetail(
     player_id=selected_player_id,
     team_id=Team_ID,
     game_id_nullable=selected_game_id,
-    context_measure_simple='FGA' # Allows to also keep misses.
+    context_measure_simple='FGA' 
 ).get_data_frames()[0]
 
 
@@ -439,7 +437,6 @@ game_shotchart['SHOT_TYPE'] = game_shotchart['SHOT_TYPE'].apply(lambda x: x[0])
 game_shotchart['LOC_X'] = game_shotchart['LOC_X'].apply(lambda x:-x)
 
 # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
-
 figure, (ax1, ax2, ax3) = plt.subplots(1, 3, gridspec_kw={'width_ratios': [1, 1,0]}, figsize=(8,3))
 draw_courts(ax1,outer_lines=True)
 draw_courts(ax2,outer_lines=True)
@@ -463,7 +460,7 @@ player_photo=Image.open(urlopen(player_photo_url))
 
 
 comparison = compare_player_to_global(df, selected_player)
-plot_comparison(comparison,selected_player, fig=figure, ax=ax1)
+plot_comparison(comparison, ax=ax1)
 for index,(x,y,res,value) in game_shotchart.iterrows():
     if res==1:
         #ax2.scatter(x,y,color='green',marker='o')
