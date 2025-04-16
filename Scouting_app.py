@@ -409,7 +409,10 @@ selected_player = st.selectbox(
 
 selected_player_id = df[df['PLAYER_NAME']==selected_player].iloc[0]['PLAYER_ID']
 
-selected_player_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season='2024-25').get_data_frames()[0]
+selected_player_regular_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season='2024-25').get_data_frames()[0]
+selected_player_playoffs_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season='2024-25',season_type_all_star="Playoffs").get_data_frames()[0]
+selected_player_season_df = pd.concat([selected_player_regular_season_df,selected_player_playoffs_df])
+st.write(selected_player_season_df)
 selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
 
 selected_game_name = st.selectbox(
