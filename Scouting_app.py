@@ -388,7 +388,8 @@ def get_player_game_stats(game_df):
     return stats_str
 
 
-st.set_page_config(layout='wide')
+st.set_page_config(page_title="Scouting Report App",layout='wide')
+
 st.write('# Players scouting report app')
 
 
