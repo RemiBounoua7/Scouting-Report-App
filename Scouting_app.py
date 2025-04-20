@@ -427,13 +427,20 @@ selected_game_id = selected_game_df['Game_ID'].values[0]
 
 Team_ID = teams.find_team_by_abbreviation(selected_game_df['MATCHUP'].values[0][:3])['id']
 
-game_shotchart = shotchartdetail.ShotChartDetail(
+rs_game_shotchart = shotchartdetail.ShotChartDetail(
     player_id=selected_player_id,
     team_id=Team_ID,
     game_id_nullable=selected_game_id,
-    context_measure_simple='FGA' 
+    context_measure_simple='FGA',
 ).get_data_frames()[0]
-
+po_game_shotchart = shotchartdetail.ShotChartDetail(
+    player_id=selected_player_id,
+    team_id=Team_ID,
+    game_id_nullable=selected_game_id,
+    context_measure_simple='FGA',
+    season_type_all_star='Playoffs'
+).get_data_frames()[0]
+game_shotchart = pd.concat([po_game_shotchart,rs_game_shotchart])
 
 game_shotchart=game_shotchart[['LOC_X','LOC_Y','SHOT_MADE_FLAG', 'SHOT_TYPE']]
 game_shotchart['SHOT_TYPE'] = game_shotchart['SHOT_TYPE'].apply(lambda x: x[0])
