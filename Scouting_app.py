@@ -498,7 +498,7 @@ for j, (num, label) in enumerate(zip(game_stats, game_labels)):
     x = -190 + 65*j 
 
     ax2.text(x, -70, num, ha='center', va='center', fontsize=9, color='black', fontweight='bold')
-    ax2.text(x, -85, label, ha='center', va='center', fontsize=5, color='grey', fontweight='medium')
+    ax2.text(x, -85, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
 
 
 image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
