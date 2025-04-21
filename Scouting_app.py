@@ -548,3 +548,4 @@ Size represents volume (the more a player shoots from there, the bigger the hexa
 
 - xPTS : How many points a player "should have scored" based on his shot selection and season averages in these zones.
 """)
+    st.image("legend (4).png", caption="Legend")
