@@ -495,7 +495,7 @@ for i, (num, label) in enumerate(zip(season_stats, season_labels)):
 
 for j, (num, label) in enumerate(zip(game_stats, game_labels)):
     # Calculate x position for each pair
-    x = -170 + 65*j 
+    x = -180 + 65*j 
 
     ax2.text(x, -70, num, ha='center', va='center', fontsize=9, color='black', fontweight='bold')
     ax2.text(x, -85, label, ha='center', va='center', fontsize=5, color='grey', fontweight='medium')
