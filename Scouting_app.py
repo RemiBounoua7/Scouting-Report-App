@@ -368,7 +368,7 @@ def get_player_season_averages(season_df):
     
     TS_PCT = str(round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1))
 
-    stats_str =["Averages :",minutes,str(pts),_2ptFG_PCT,_3ptFG_PCT,_FT_PCT,TS_PCT]
+    stats_str =[minutes,str(pts),_2ptFG_PCT,_3ptFG_PCT,_FT_PCT,TS_PCT]
      
 
     return stats_str
@@ -482,7 +482,7 @@ season_stats = get_player_season_averages(selected_player_season_df)
 game_stats = get_player_game_stats(selected_game_df)
 #figure.text(0.3, 0.03, season_stats, horizontalalignment="center",fontdict={'fontsize': 7})
 #figure.text(.685, 0.03, game_stats, horizontalalignment="center",fontdict={'fontsize': 7})
-season_labels = ["","MIN", "PTS", "FG%","FG","3FG","FTS","TS%"]
+season_labels = ["MIN", "PTS", "FG%","FG","3FG","FTS","TS%"]
 game_labels = ["MIN", "PTS","xPTS", "FG","3FG","FT","TS%"]
 
 
