@@ -359,33 +359,31 @@ def get_expected_pts(comparison,shotchart,season_df,game_df):
 
 def get_player_season_averages(season_df):
 
-    pts = round(season_df['PTS'].mean(),1)
-    _2ptFG_PCT = int(100*round(season_df['FG_PCT'].mean(),2))
-    _3ptFG_PCT = int(100*round(season_df['FG3_PCT'].mean(),2))
-    _FT_PCT = int(100*round(season_df['FT_PCT'].mean(),2))
-    minutes = round(season_df['MIN'].mean(),1)
+    pts = str(round(season_df['PTS'].mean(),1))
+    _2ptFG_PCT = str(int(100*round(season_df['FG_PCT'].mean(),2)))
+    _3ptFG_PCT = str(int(100*round(season_df['FG3_PCT'].mean(),2)))
+    _FT_PCT = str(int(100*round(season_df['FT_PCT'].mean(),2)))
+    minutes = str(round(season_df['MIN'].mean(),1))
 
-    TS_PCT = round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1)
+    TS_PCT = str(round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1))
 
-    stats_str = f"""Averages {pts}pts in {minutes}min
-{_2ptFG_PCT}/{_3ptFG_PCT}/{_FT_PCT} | {TS_PCT} TS%"""
+    stats_str =[minutes,pts,_2ptFG_PCT,_3ptFG_PCT,_FT_PCT,TS_PCT]
      
 
     return stats_str
 
 def get_player_game_stats(game_df):
-    pts = game_df['PTS'].values[0]
-    x_pts = get_expected_pts(comparison, game_shotchart,selected_player_season_df,selected_game_df)
+    pts = str(game_df['PTS'].values[0])
+    x_pts = str(get_expected_pts(comparison, game_shotchart,selected_player_season_df,selected_game_df))
 
-    minutes = game_df['MIN'].values[0]
+    minutes = str(game_df['MIN'].values[0])
 
-    TS_PCT = round(50*(pts)/(game_df['FGA'].values[0]+.44*game_df['FTA'].values[0]),1)
+    TS_PCT = str(round(50*(pts)/(game_df['FGA'].values[0]+.44*game_df['FTA'].values[0]),1))
 
-
-    stats_str = f"""{pts} PTS from {x_pts} xPTS in {minutes}min
-{game_df['FGM'].values[0]}/{game_df['FGA'].values[0]} {game_df['FG3M'].values[0]}/{game_df['FG3A'].values[0]} {game_df['FTM'].values[0]}/{game_df['FTA'].values[0]} | {TS_PCT} TS%"""
+    stats_str=[minutes,pts,x_pts, f"{game_df['FGM'].values[0]}/{game_df['FGA'].values[0]}",f"{game_df['FG3M'].values[0]}/{game_df['FG3A'].values[0]}",f"{game_df['FTM'].values[0]}/{game_df['FTA'].values[0]}",TS_PCT]
     
     return stats_str
+
 
 
 st.set_page_config(page_title="Scouting Report App",layout='wide')
@@ -481,8 +479,16 @@ for index,(x,y,res,value) in game_shotchart.iterrows():
 #st.write(get_player_season_averages(selected_player_season_df))
 season_stats = get_player_season_averages(selected_player_season_df)
 game_stats = get_player_game_stats(selected_game_df)
-figure.text(0.3, 0.03, season_stats, horizontalalignment="center",fontdict={'fontsize': 7})
-figure.text(.685, 0.03, game_stats, horizontalalignment="center",fontdict={'fontsize': 7})
+#figure.text(0.3, 0.03, season_stats, horizontalalignment="center",fontdict={'fontsize': 7})
+#figure.text(.685, 0.03, game_stats, horizontalalignment="center",fontdict={'fontsize': 7})
+season_labels = ["MIN", "PTS", "FG%","FG","3FG","FTS","TS%"]
+game_labels = ["MIN", "PTS","xPTS", "FG","3FG","FT","TS%"]
+
+figure.text(0.3, 0.03, season_stats, ha='center', va='center', fontsize=7, color='black', fontweight='bold')
+figure.text(0.3, 0.02, season_labels, ha='center', va='center', fontsize=5, color='grey', fontweight='medium')
+
+figure.text(.685, 0.03, game_stats, ha='center', va='center', fontsize=7, color='black', fontweight='bold')
+figure.text(.685, 0.02, game_labels, ha='center', va='center', fontsize=5, color='grey', fontweight='medium')
 
 
 image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
