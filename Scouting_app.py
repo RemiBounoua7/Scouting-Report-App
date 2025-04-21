@@ -333,8 +333,9 @@ def plot_comparison(comparison,ax):
                                  facecolor=cmap(color_idx) if not np.isnan(value) else 'gray', 
                                  alpha=0.75, edgecolor='k')
         ax.add_patch(hexagon)    
-        if size>3:
+        if size>10:
             st.write(bin_stat)
+        
 def get_hex(comparison,x,y):
     index=0
     res=((comparison[0]['x_center']-x)**2+(comparison[0]['y_center']-y)**2)**.5
