@@ -508,7 +508,7 @@ image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
 image_ax.imshow(player_photo)
 image_ax.axis("off")  # Hide axes for the image
 
-legend_ax = figure.add_axes([0.25, 0.79, 0.12, 0.06])  # [x, y, width, height]
+legend_ax = figure.add_axes([0.40, 0.80, 0.12, 0.06])  # [x, y, width, height]
 legend_ax.imshow(legend_img)
 legend_ax.axis("off")  # Hide axes for the image
 
