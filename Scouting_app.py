@@ -456,7 +456,6 @@ ax1.set_ylim(-50,335)
 ax1.set_axis_off()
 ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 8})
 ax1.set_facecolor("#FFF9EE")
-#ax1.imshow(X=plt.imread('legend.png'),extent = [0, 0.2, 0.6, 0.8])
 
 ax2.set_xlim(-251,251)
 ax2.set_ylim(-50,335)
@@ -484,8 +483,8 @@ for index,(x,y,res,value) in game_shotchart.iterrows():
 #st.write(get_player_season_averages(selected_player_season_df))
 season_stats = get_player_season_averages(selected_player_season_df)
 game_stats = get_player_game_stats(selected_game_df)
-#figure.text(0.3, 0.03, season_stats, horizontalalignment="center",fontdict={'fontsize': 7})
-#figure.text(.685, 0.03, game_stats, horizontalalignment="center",fontdict={'fontsize': 7})
+
+
 season_labels = ["MIN", "PTS", "FG%","3FG%","FT%","TS%"]
 game_labels = ["MIN", "xPTS", "PTS","FG","3FG","FT","TS%"]
 
@@ -509,7 +508,7 @@ image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
 image_ax.imshow(player_photo)
 image_ax.axis("off")  # Hide axes for the image
 
-legend_ax = figure.add_axes([0.1, 0.8, 0.2, 0.1])  # [x, y, width, height]
+legend_ax = figure.add_axes([0.2, 0.8, 0.12, 0.08])  # [x, y, width, height]
 legend_ax.imshow(legend_img)
 legend_ax.axis("off")  # Hide axes for the image
 
