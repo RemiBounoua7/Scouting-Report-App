@@ -490,8 +490,16 @@ for i, (num, label) in enumerate(zip(season_stats, season_labels)):
     # Calculate x position for each pair
     x = -170 + 65*i 
 
-    ax1.text(x, -70, str(num), ha='center', va='center', fontsize=9, color='black', fontweight='bold')
+    ax1.text(x, -70, num, ha='center', va='center', fontsize=9, color='black', fontweight='bold')
     ax1.text(x, -85, label, ha='center', va='center', fontsize=5, color='grey', fontweight='medium')
+
+for j, (num, label) in enumerate(zip(game_stats, game_labels)):
+    # Calculate x position for each pair
+    x = -170 + 65*j 
+
+    ax2.text(x, -70, num, ha='center', va='center', fontsize=9, color='black', fontweight='bold')
+    ax2.text(x, -85, label, ha='center', va='center', fontsize=5, color='grey', fontweight='medium')
+
 
 image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
 image_ax.imshow(player_photo)
