@@ -354,7 +354,7 @@ def get_expected_pts(comparison,shotchart,season_df,game_df):
         x_pts += value*comparison[hex]['player_fg']
 
 
-    x_pts += game_df['FTA'].values[0] * season_df['FT_PCT'].mean()
+    x_pts += game_df['FTA'].values[0] * 100*(season_df['FTM'].sum()/season_df['FTA'].sum())
     return round(x_pts,1)
 
 
