@@ -359,7 +359,7 @@ def get_expected_pts(comparison,shotchart,season_df,game_df):
 
 
 def get_player_season_averages(season_df):
-
+    print(season_df)
     pts = round(season_df['PTS'].mean(),1)
     _2ptFG_PCT = str(int(100*round(season_df['FG_PCT'].mean(),2)))
     _3ptFG_PCT = str(int(100*round(season_df['FG3_PCT'].mean(),2)))
