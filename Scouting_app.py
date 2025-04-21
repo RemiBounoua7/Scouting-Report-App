@@ -327,13 +327,14 @@ def plot_comparison(comparison,ax):
         
         size = bin_stat['player_volume'] if not np.isnan(bin_stat['player_volume']) else 0
         max_hex_size = 10.5
-        color_idx = np.digitize(bin_stat['diff_fg'], fg_intervals) - 1  # Get the index for the color
+        color_idx = np.digitize(value, fg_intervals) - 1  # Get the index for the color
         radius = min(size , max_hex_size) if size>1 else 0
         hexagon = RegularPolygon((x, y), numVertices=6, radius=radius, orientation=np.radians(0),
                                  facecolor=cmap(color_idx) if not np.isnan(value) else 'gray', 
                                  alpha=0.75, edgecolor='k')
         ax.add_patch(hexagon)    
-
+        if size>3:
+            st.write(bin_stat)
 def get_hex(comparison,x,y):
     index=0
     res=((comparison[0]['x_center']-x)**2+(comparison[0]['y_center']-y)**2)**.5
