@@ -244,7 +244,6 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
             'global_fg': gfg,
             'player_volume': pvol,
             'player_fg': pfg,
-            'diff_volume': diff_volume,
             'diff_fg': diff_fg
         })
     comparison = [
@@ -334,7 +333,7 @@ def plot_comparison(comparison,ax):
                                  alpha=0.75, edgecolor='k')
         ax.add_patch(hexagon)    
         if size>10:
-            st.write(bin_stat)
+            st.write(bin_stat,color_idx)
         
 def get_hex(comparison,x,y):
     index=0
