@@ -488,7 +488,7 @@ game_labels = ["MIN", "PTS","xPTS", "FG","3FG","FT","TS%"]
 
 for i, (num, label) in enumerate(zip(season_stats, season_labels)):
     # Calculate x position for each pair
-    x = -150 + 60*i 
+    x = -170 + 65*i 
 
     ax1.text(x, -70, str(num), ha='center', va='center', fontsize=9, color='black', fontweight='bold')
     ax1.text(x, -85, label, ha='center', va='center', fontsize=5, color='grey', fontweight='medium')
