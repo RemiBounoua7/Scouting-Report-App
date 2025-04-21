@@ -455,6 +455,7 @@ ax1.set_ylim(-50,335)
 ax1.set_axis_off()
 ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 8})
 ax1.set_facecolor("#FFF9EE")
+ax1.imshow(im=plt.imread('legend.png'),extent = [0, 0.2, 0.6, 0.8])
 
 ax2.set_xlim(-251,251)
 ax2.set_ylim(-50,335)
