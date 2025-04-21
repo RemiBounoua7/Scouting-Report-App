@@ -446,7 +446,7 @@ game_shotchart['SHOT_TYPE'] = game_shotchart['SHOT_TYPE'].apply(lambda x: x[0])
 game_shotchart['LOC_X'] = game_shotchart['LOC_X'].apply(lambda x:-x)
 
 # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
-figure, (ax1, ax2, ax3) = plt.subplots(1, 3, gridspec_kw={'width_ratios': [1, 1,0]}, figsize=(8,3))
+figure, (ax1, ax2, ax3) = plt.subplots(1, 3, gridspec_kw={'width_ratios': [1, 1,0]}, figsize=(8,3), facecolor="#FFF9EE")
 draw_courts(ax1,outer_lines=True)
 draw_courts(ax2,outer_lines=True)
 
@@ -455,7 +455,7 @@ ax1.set_xlim(-251,251)
 ax1.set_ylim(-50,335)
 ax1.set_axis_off()
 ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 8})
-#ax1.set_facecolor("#FFF9EE")
+ax1.set_facecolor("#FFF9EE")
 
 ax2.set_xlim(-251,251)
 ax2.set_ylim(-50,335)
@@ -463,11 +463,11 @@ ax2.set_axis_off()
 ax2.set_title(f"{selected_player} {selected_game_name} - {selected_game_df['WL'].values[0]}",fontdict={'fontsize': 8})
 ax2.set_facecolor("#FFF9EE")
 ax3.set_axis_off()
-#ax3.set_facecolor("#FFF9EE")
+ax3.set_facecolor("#FFF9EE")
 
 player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760"
 player_photo=Image.open(urlopen(player_photo_url))
-legend_img = Image.open('legend (4).png')
+#legend_img = Image.open('legend.png')
 
 
 
@@ -508,9 +508,9 @@ image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
 image_ax.imshow(player_photo)
 image_ax.axis("off")  # Hide axes for the image
 
-legend_ax = figure.add_axes([0.371, 0.80, 0.12, 0.06])  # [x, y, width, height]
-legend_ax.imshow(legend_img)
-legend_ax.axis("off")  # Hide axes for the image
+#legend_ax = figure.add_axes([0.371, 0.80, 0.12, 0.06])  # [x, y, width, height]
+#legend_ax.imshow(legend_img)
+#legend_ax.axis("off")  # Hide axes for the image
 
 plt.tight_layout()
 
@@ -548,4 +548,4 @@ Size represents volume (the more a player shoots from there, the bigger the hexa
 
 - xPTS : How many points a player "should have scored" based on his shot selection and season averages in these zones.
 """)
-    st.image("legend (4).png", caption="Legend")
+    st.image("legend.png")
