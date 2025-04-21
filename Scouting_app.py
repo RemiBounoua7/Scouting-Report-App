@@ -467,7 +467,7 @@ ax3.set_facecolor("#FFF9EE")
 
 player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760"
 player_photo=Image.open(urlopen(player_photo_url))
-legend_img = Image.open('legend (3).png')
+legend_img = Image.open('legend (4).png')
 
 
 
