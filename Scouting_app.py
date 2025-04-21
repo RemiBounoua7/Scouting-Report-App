@@ -367,7 +367,7 @@ def get_player_season_averages(season_df):
     
     TS_PCT = str(round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1))
 
-    stats_str =[minutes,str(pts),_2ptFG_PCT,_3ptFG_PCT,_FT_PCT,TS_PCT]
+    stats_str =["Averages :",minutes,str(pts),_2ptFG_PCT,_3ptFG_PCT,_FT_PCT,TS_PCT]
      
 
     return stats_str
@@ -481,8 +481,8 @@ season_stats = get_player_season_averages(selected_player_season_df)
 game_stats = get_player_game_stats(selected_game_df)
 #figure.text(0.3, 0.03, season_stats, horizontalalignment="center",fontdict={'fontsize': 7})
 #figure.text(.685, 0.03, game_stats, horizontalalignment="center",fontdict={'fontsize': 7})
-season_labels = ["Averages :","MIN", "PTS", "FG%","FG","3FG","FTS","TS%"]
-game_labels = ["","MIN", "PTS","xPTS", "FG","3FG","FT","TS%"]
+season_labels = ["","MIN", "PTS", "FG%","FG","3FG","FTS","TS%"]
+game_labels = ["MIN", "PTS","xPTS", "FG","3FG","FT","TS%"]
 
 
 for i, (num, label) in enumerate(zip(season_stats, season_labels)):
@@ -490,7 +490,7 @@ for i, (num, label) in enumerate(zip(season_stats, season_labels)):
     x = -140 + 50*i 
 
     ax1.text(x, -70, str(num), ha='center', va='center', fontsize=7, color='black', fontweight='bold')
-    ax1.text(x, -80, label, ha='left', va='center', fontsize=5, color='grey', fontweight='medium')
+    ax1.text(x, -80, label, ha='center', va='center', fontsize=5, color='grey', fontweight='medium')
 
 image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
 image_ax.imshow(player_photo)
