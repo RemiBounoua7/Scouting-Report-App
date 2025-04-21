@@ -450,6 +450,7 @@ figure, (ax1, ax2, ax3) = plt.subplots(1, 3, gridspec_kw={'width_ratios': [1, 1,
 draw_courts(ax1,outer_lines=True)
 draw_courts(ax2,outer_lines=True)
 
+
 ax1.set_xlim(-251,251)
 ax1.set_ylim(-50,335)
 ax1.set_axis_off()
@@ -467,6 +468,7 @@ ax3.set_facecolor("#FFF9EE")
 
 player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760"
 player_photo=Image.open(urlopen(player_photo_url))
+legend_img = Image.open('legend.png')
 
 
 
@@ -507,7 +509,10 @@ image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
 image_ax.imshow(player_photo)
 image_ax.axis("off")  # Hide axes for the image
 
-# Adjust layout to prevent overlap
+legend_ax = figure.add_axes([0.1, 0.8, 0.2, 0.1])  # [x, y, width, height]
+legend_ax.imshow(legend_img)
+legend_ax.axis("off")  # Hide axes for the image
+
 plt.tight_layout()
 
 st.pyplot(figure)
