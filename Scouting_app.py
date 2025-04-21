@@ -455,7 +455,7 @@ ax1.set_xlim(-251,251)
 ax1.set_ylim(-50,335)
 ax1.set_axis_off()
 ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 8})
-ax1.set_facecolor("#FFF9EE")
+#ax1.set_facecolor("#FFF9EE")
 
 ax2.set_xlim(-251,251)
 ax2.set_ylim(-50,335)
@@ -467,7 +467,7 @@ ax3.set_facecolor("#FFF9EE")
 
 player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760"
 player_photo=Image.open(urlopen(player_photo_url))
-legend_img = Image.open('legend.png')
+legend_img = Image.open('legend (3).png')
 
 
 
