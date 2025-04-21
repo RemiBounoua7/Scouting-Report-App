@@ -484,12 +484,12 @@ game_stats = get_player_game_stats(selected_game_df)
 season_labels = ["MIN", "PTS", "FG%","FG","3FG","FTS","TS%"]
 game_labels = ["MIN", "PTS","xPTS", "FG","3FG","FT","TS%"]
 
-figure.text(0.3, 0.03, season_stats, ha='center', va='center', fontsize=7, color='black', fontweight='bold')
-figure.text(0.3, 0.02, season_labels, ha='center', va='center', fontsize=5, color='grey', fontweight='medium')
 
-figure.text(.685, 0.03, game_stats, ha='center', va='center', fontsize=7, color='black', fontweight='bold')
-figure.text(.685, 0.02, game_labels, ha='center', va='center', fontsize=5, color='grey', fontweight='medium')
-
+for i, (num, label) in enumerate(zip(season_stats, season_labels)):
+    # Calculate x position for each pair
+    x = i + .1
+    ax1.text(x, 0.03, str(num), ha='center', va='center', fontsize=7, color='black', fontweight='bold')
+    ax1.text(x, 0.02, label, ha='center', va='center', fontsize=5, color='grey', fontweight='medium')
 
 image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
 image_ax.imshow(player_photo)
