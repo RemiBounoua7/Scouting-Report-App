@@ -453,7 +453,7 @@ draw_courts(ax2,outer_lines=True)
 ax1.set_xlim(-251,251)
 ax1.set_ylim(-50,335)
 ax1.set_axis_off()
-ax1.set_title(f"{selected_player} Shot Chart (2024-25)",fontdict={'fontsize': 7})
+ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 7, 'fontweight':'bold'})
 ax1.set_facecolor("#FFF9EE")
 
 ax2.set_xlim(-251,251)
