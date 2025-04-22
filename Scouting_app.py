@@ -398,7 +398,7 @@ df = load_nba_data(
     in_memory=True,
     seasontype = 'rg'
 )
-st.write(df)
+
 df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
 # Reverse left-right because of data gathering from the NBA is the other way around.
 df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
