@@ -395,7 +395,8 @@ st.write('# Players scouting report app')
 df = load_nba_data(
     seasons=2024,
     data="shotdetail",
-    in_memory=True
+    in_memory=True,
+    seasontype = 'rg'
 )
 df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
 # Reverse left-right because of data gathering from the NBA is the other way around.
