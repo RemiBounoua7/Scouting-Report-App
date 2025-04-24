@@ -357,14 +357,15 @@ selected_year = st.selectbox(
 )
 
 
-
-df = load_nba_data(
-    seasons=selected_year,
-    data="shotdetail",
-    in_memory=True,
-    seasontype = 'rg'
-)
-
+try:
+    df = load_nba_data(
+        seasons=selected_year,
+        data="shotdetail",
+        in_memory=True,
+        seasontype = 'rg'
+    )
+except:
+    st.write("Select a player")
 selected_season = f"{selected_year}-{str(selected_year + 1)[-2:]}"
 
 df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
