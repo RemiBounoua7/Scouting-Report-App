@@ -394,7 +394,7 @@ try:
     ax1.set_xlim(-251,251)
     ax1.set_ylim(-50,335)
     ax1.set_axis_off()
-    ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 12})
+    ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 14})
     ax1.set_facecolor("#FFF9EE")
 
 
@@ -441,7 +441,7 @@ try:
 
 
     download_button = st.download_button(
-            label="Save Graphs",
+            label="Save Graph",
             data=buffer,
             file_name=f"{selected_season} {selected_player} shot chart.png",
         )
