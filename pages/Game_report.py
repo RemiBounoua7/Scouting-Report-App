@@ -474,7 +474,7 @@ game_video_link = f"https://www.nba.com/stats/events?CFID=&CFPARAMS=&ContextMeas
 c1,c2,c3 = st.columns(3)
 with st.container():
     c2.download_button(
-        label="Save Graphs",
+        label="Save Graph",
         data=buffer,
         file_name=f"{selected_player} shot chart {selected_game_name}.png",
     )

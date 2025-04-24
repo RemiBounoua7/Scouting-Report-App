@@ -440,10 +440,12 @@ try:
     buffer.seek(0)  # Reset the buffer position
 
 
-    download_button = st.download_button(
+    c1,c2,c3 = st.columns(3)
+    with st.container():
+        c2.download_button(
             label="Save Graph",
             data=buffer,
-            file_name=f"{selected_season} {selected_player} shot chart.png",
+            file_name=f"{selected_player} shot chart {selected_season}.png",
         )
 
 except:
