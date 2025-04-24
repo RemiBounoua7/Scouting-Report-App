@@ -385,7 +385,9 @@ selected_player_season_df = pd.concat([selected_player_playoffs_df,selected_play
 selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
 
 # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
-figure, (ax1, ax2) = plt.subplots(1, 2, gridspec_kw={'width_ratios': [1,0]}, figsize=(6,3), facecolor="#FFF9EE")
+figure, ax = plt.subplots(2, 1, gridspec_kw={'height_ratios': [1, 0]}, figsize=(7,6),facecolor="#FFF9EE")
+ax1,ax2=ax[0],ax[1]
+
 draw_courts(ax1,outer_lines=True)
 
 
@@ -409,18 +411,18 @@ plot_comparison(comparison, ax=ax1)
 
 #st.write(get_player_season_averages(selected_player_season_df))
 season_stats = get_player_season_averages(selected_player_season_df)
-season_labels = ["MIN", "PTS", "FG%","3FG%","FT%","TS%"]
+season_labels = ["MIN", "PTS", "FG%","3FG%","FT%","TS+"]
 
 
 for i, (num, label) in enumerate(zip(season_stats, season_labels)):
     # Calculate x position for each pair
-    x = -190 + 65*i 
+    x = -220 + 70*i
 
     ax1.text(x, -70, num, ha='center', va='center', fontsize=12, color='black', fontweight='bold')
-    ax1.text(x, -80, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
+    ax1.text(x, -82, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
 
 
-image_ax = figure.add_axes([0.135, 0.110, 0.21, 0.21])  # [x, y, width, height]
+image_ax = figure.add_axes([0.155, 0.166, 0.21, 0.21])  # [x, y, width, height]
 image_ax.imshow(player_photo)
 image_ax.axis("off")  # Hide axes for the image
 
