@@ -342,7 +342,7 @@ def get_player_season_averages(season_df):
     
     TS_PCT = str(round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1))
 
-    stats_str =[minutes,str(pts),_2ptFG_PCT,_3ptFG_PCT,_FT_PCT,TS_PCT]
+    stats_str =[len(season_df),minutes,str(pts),_2ptFG_PCT,_3ptFG_PCT,_FT_PCT,TS_PCT]
      
 
     return stats_str
@@ -385,7 +385,7 @@ try:
     selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
 
     # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
-    figure, ax = plt.subplots(2, 1, gridspec_kw={'height_ratios': [1, 0]},facecolor="#FFF9EE")
+    figure, ax = plt.subplots(2, 1, gridspec_kw={'height_ratios': [1, 0]}, figsize=(7,6),facecolor="#FFF9EE")
     ax1,ax2=ax[0],ax[1]
 
     draw_courts(ax1,outer_lines=True)
@@ -411,12 +411,12 @@ try:
 
     #st.write(get_player_season_averages(selected_player_season_df))
     season_stats = get_player_season_averages(selected_player_season_df)
-    season_labels = ["MIN", "PTS", "FG%","3FG%","FT%","TS+"]
+    season_labels = ["GP","MIN/G", "PTS/G", "FG%","3FG%","FT%","TS+"]
 
 
     for i, (num, label) in enumerate(zip(season_stats, season_labels)):
         # Calculate x position for each pair
-        x = -220 + 70*i
+        x = -170 + 70*i
 
         ax1.text(x, -70, num, ha='center', va='center', fontsize=12, color='black', fontweight='bold')
         ax1.text(x, -82, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
