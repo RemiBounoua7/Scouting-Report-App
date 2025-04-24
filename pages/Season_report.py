@@ -359,7 +359,7 @@ selected_year = st.selectbox(
 
 
 df = load_nba_data(
-    seasons=selected_season,
+    seasons=selected_year,
     data="shotdetail",
     in_memory=True,
     seasontype = 'rg'
