@@ -311,8 +311,7 @@ def get_average_ts_percentage(season):
         # Fetching player stats for the current season
         stats = leaguedashplayerstats.LeagueDashPlayerStats(season=season, season_type_all_star="Regular Season")
         data = stats.get_data_frames()[0]
-        #data=data[data['MIN']>500]
-        st.write(data)
+        
         # Ensuring necessary columns are present
         required_columns = ["PTS", "FGA", "FTA"]
         if not all(col in data.columns for col in required_columns):
@@ -378,9 +377,9 @@ def get_player_season_averages(season_df,season):
     TS_plus = 100-100*(TS_PCT/get_average_ts_percentage(season))
     TS_gap=""
     if TS_plus<0:
-        TS_gap=str(TS_plus)
+        TS_gap=str(round(TS_plus))
     else:
-        TS_gap="+"+str(TS_plus)
+        TS_gap="+"+str(round(TS_plus))
     stats_str =[len(season_df),minutes,str(pts),_2ptFG_PCT,_3ptFG_PCT,_FT_PCT,TS_gap]
      
 
