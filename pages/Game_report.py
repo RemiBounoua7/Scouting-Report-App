@@ -451,7 +451,7 @@ for j, (num, label) in enumerate(zip(game_stats, game_labels)):
     # Calculate x position for each pair
     x = -220 + 70*j 
 
-    ax1.text(x, -70, num, ha='center', va='center', fontsize=12, color='black', fontweight='bold')
+    ax1.text(x, -70, num, ha='center', va='center', fontsize=13, color='black', fontweight='bold')
     ax1.text(x, -82, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
 
 
