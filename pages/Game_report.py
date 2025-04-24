@@ -433,9 +433,9 @@ comparison = compare_player_to_global(df, selected_player)
 for index,(x,y,res,value) in game_shotchart.iterrows():
     if res==1:
         #ax2.scatter(x,y,color='green',marker='o')
-        ax1.scatter(x,y,facecolors='none', edgecolors='g',zorder=10, s=2)
+        ax1.scatter(x,y,facecolors='none', edgecolors='g',zorder=10, s=20)
     else:
-        ax1.scatter(x,y,color='red', marker="x",zorder=9, s=3)
+        ax1.scatter(x,y,color='red', marker="x",zorder=9, s=30)
 
 #st.write(get_player_season_averages(selected_player_season_df))
 season_stats = get_player_season_averages(selected_player_season_df)
