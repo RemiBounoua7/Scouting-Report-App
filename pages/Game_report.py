@@ -417,7 +417,7 @@ draw_courts(ax1,outer_lines=True)
 ax1.set_xlim(-251,251)
 ax1.set_ylim(-50,335)
 ax1.set_axis_off()
-ax1.set_title(f"{selected_player} {selected_game_name} - {selected_game_df['WL'].values[0]}",fontdict={'fontsize': 8})
+ax1.set_title(f"{selected_player} {selected_game_name} - {selected_game_df['WL'].values[0]}",fontdict={'fontsize': 12})
 ax1.set_facecolor("#FFF9EE")
 
 ax2.set_axis_off()
@@ -433,7 +433,7 @@ comparison = compare_player_to_global(df, selected_player)
 for index,(x,y,res,value) in game_shotchart.iterrows():
     if res==1:
         #ax2.scatter(x,y,color='green',marker='o')
-        ax1.scatter(x,y,facecolors='none', edgecolors='g',zorder=10, s=50)
+        ax1.scatter(x,y,facecolors='none', edgecolors='g',zorder=10, s=70)
     else:
         ax1.scatter(x,y,color='red', marker="x",zorder=9, s=70)
 
