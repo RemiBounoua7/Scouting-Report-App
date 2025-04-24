@@ -455,7 +455,7 @@ for j, (num, label) in enumerate(zip(game_stats, game_labels)):
     ax1.text(x, -82, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
 
 
-image_ax = figure.add_axes([0.300, 0.110, 0.21, 0.21])  # [x, y, width, height]
+image_ax = figure.add_axes([0.145, 0.200, 0.21, 0.21])  # [x, y, width, height]
 image_ax.imshow(player_photo)
 image_ax.axis("off")  # Hide axes for the image
 
