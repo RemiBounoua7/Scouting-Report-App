@@ -351,7 +351,7 @@ def get_player_game_stats(game_df):
 
 
 
-st.set_page_config(page_title="Scouting Report App",layout='wide')
+st.set_page_config(page_title="Scouting Report App")
 st.write('# Players scouting report app')
 
 
@@ -454,19 +454,13 @@ for j, (num, label) in enumerate(zip(game_stats, game_labels)):
     ax1.text(x, -85, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
 
 
-image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
+image_ax = figure.add_axes([0.175, 0.111, 0.23, 0.23])  # [x, y, width, height]
 image_ax.imshow(player_photo)
 image_ax.axis("off")  # Hide axes for the image
-
-#legend_ax = figure.add_axes([0.371, 0.80, 0.12, 0.06])  # [x, y, width, height]
-#legend_ax.imshow(legend_img)
-#legend_ax.axis("off")  # Hide axes for the image
 
 plt.tight_layout()
 
 st.pyplot(figure)
-
-
 
 
 # Button to save and download the figure
