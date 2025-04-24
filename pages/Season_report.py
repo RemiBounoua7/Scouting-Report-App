@@ -353,7 +353,7 @@ st.write('# Players scouting report app')
 
 selected_year = st.selectbox(
     "Select a Season",
-    range(1996,2025),
+    range(2024,1995,-1),
 )
 
 
