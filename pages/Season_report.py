@@ -351,7 +351,7 @@ def get_player_season_averages(season_df):
 st.set_page_config(page_title="Scouting Report App",layout='wide')
 st.write('# Players scouting report app')
 
-selected_season = st.selectbox(
+selected_year = st.selectbox(
     "Select a Season",
     range(1996,2025),
 )
@@ -364,7 +364,9 @@ df = load_nba_data(
     in_memory=True,
     seasontype = 'rg'
 )
-st.write(f"{str(selected_season)}-{str((selected_season+1)[:-2])}")
+
+selected_season = f"{selected_year}-{str(selected_year + 1)[-2:]}"
+st.write(selected_season)
 df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
 # Reverse left-right because of data gathering from the NBA is the other way around.
 df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
