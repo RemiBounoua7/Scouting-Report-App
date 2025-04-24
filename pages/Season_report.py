@@ -12,8 +12,7 @@ from io import BytesIO, TextIOWrapper
 import csv
 import streamlit as st
 import matplotlib
-from nba_api.stats.endpoints import shotchartdetail,playergamelog
-from nba_api.stats.static import teams
+from nba_api.stats.endpoints import playergamelog
 from PIL import Image
 
 matplotlib.use('Agg')
@@ -332,29 +331,6 @@ def plot_comparison(comparison,ax):
                                  facecolor=cmap(color_idx) if not np.isnan(value) else 'gray', 
                                  alpha=0.75, edgecolor='k')
         ax.add_patch(hexagon)    
-    
-def get_hex(comparison,x,y):
-    index=0
-    res=((comparison[0]['x_center']-x)**2+(comparison[0]['y_center']-y)**2)**.5
-    for k in range(1,len(comparison)):
-        if ((comparison[k]['x_center']-x)**2+(comparison[k]['y_center']-y)**2)**.5 < res:
-            if not np.isnan(comparison[k]['player_fg']) and comparison[k]['player_fg']!="masked":
-                index=k
-                res=((comparison[k]['x_center']-x)**2+(comparison[k]['y_center']-y)**2)**.5
-    return index
-
-def get_expected_pts(comparison,shotchart,season_df,game_df):
-    x_pts=0
-
-    for index,(x,y,res,value) in shotchart.iterrows():
-
-        value=int(value)
-        hex = get_hex(comparison,x,y)
-        x_pts += value*comparison[hex]['player_fg']
-
-
-    x_pts += game_df['FTA'].values[0] *(season_df['FTM'].sum()/season_df['FTA'].sum())
-    return round(x_pts,1)
 
 def get_player_season_averages(season_df):
 
@@ -371,31 +347,24 @@ def get_player_season_averages(season_df):
 
     return stats_str
 
-def get_player_game_stats(game_df):
-    pts = game_df['PTS'].values[0]
-    x_pts = str(get_expected_pts(comparison, game_shotchart,selected_player_season_df,selected_game_df))
-
-    minutes = str(game_df['MIN'].values[0])
-
-    TS_PCT = str(round(50*(pts)/(game_df['FGA'].values[0]+.44*game_df['FTA'].values[0]),1))
-
-    stats_str=[minutes,x_pts,str(pts), f"{game_df['FGM'].values[0]}/{game_df['FGA'].values[0]}",f"{game_df['FG3M'].values[0]}/{game_df['FG3A'].values[0]}",f"{game_df['FTM'].values[0]}/{game_df['FTA'].values[0]}",TS_PCT]
-    
-    return stats_str
-
-
 
 st.set_page_config(page_title="Scouting Report App",layout='wide')
 st.write('# Players scouting report app')
 
+selected_season = st.selectbox(
+    "Select a Season",
+    range(1996,2025),
+)
+
+
 
 df = load_nba_data(
-    seasons=2024,
+    seasons=selected_season,
     data="shotdetail",
     in_memory=True,
     seasontype = 'rg'
 )
-
+st.write(f"{str(selected_season)}-{str((selected_season+1)[:-2])}")
 df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
 # Reverse left-right because of data gathering from the NBA is the other way around.
 df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
@@ -403,51 +372,19 @@ df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
 selected_player = st.selectbox(
     "Select the player",
     sorted(df['PLAYER_NAME'].unique()),
-    index=487,
+    index=None,
     placeholder="Select a player ...")
 
 selected_player_id = df[df['PLAYER_NAME']==selected_player].iloc[0]['PLAYER_ID']
 
-selected_player_regular_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season='2024-25').get_data_frames()[0]
-selected_player_playoffs_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season='2024-25',season_type_all_star="Playoffs").get_data_frames()[0]
+selected_player_regular_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season=f"{str(selected_season)}-{str((selected_season+1)[:-2])}").get_data_frames()[0]
+selected_player_playoffs_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season=f"{str(selected_season)}-{str((selected_season+1)[:-2])}",season_type_all_star="Playoffs").get_data_frames()[0]
 selected_player_season_df = pd.concat([selected_player_playoffs_df,selected_player_regular_season_df])
 selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
 
-selected_game_name = st.selectbox(
-    "Pick a Game",
-    selected_player_season_df['Matchup + Date'],
-    index=0,
-    placeholder="Select game ...",
-)
-
-selected_game_df = selected_player_season_df[selected_player_season_df['Matchup + Date']==selected_game_name]
-selected_game_id = selected_game_df['Game_ID'].values[0]
-
-Team_ID = teams.find_team_by_abbreviation(selected_game_df['MATCHUP'].values[0][:3])['id']
-
-rs_game_shotchart = shotchartdetail.ShotChartDetail(
-    player_id=selected_player_id,
-    team_id=Team_ID,
-    game_id_nullable=selected_game_id,
-    context_measure_simple='FGA',
-).get_data_frames()[0]
-po_game_shotchart = shotchartdetail.ShotChartDetail(
-    player_id=selected_player_id,
-    team_id=Team_ID,
-    game_id_nullable=selected_game_id,
-    context_measure_simple='FGA',
-    season_type_all_star='Playoffs'
-).get_data_frames()[0]
-game_shotchart = pd.concat([po_game_shotchart,rs_game_shotchart])
-
-game_shotchart=game_shotchart[['LOC_X','LOC_Y','SHOT_MADE_FLAG', 'SHOT_TYPE']]
-game_shotchart['SHOT_TYPE'] = game_shotchart['SHOT_TYPE'].apply(lambda x: x[0])
-game_shotchart['LOC_X'] = game_shotchart['LOC_X'].apply(lambda x:-x)
-
 # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
-figure, (ax1, ax2, ax3) = plt.subplots(1, 3, gridspec_kw={'width_ratios': [1, 1,0]}, figsize=(8,3), facecolor="#FFF9EE")
+figure, (ax1, ax2) = plt.subplots(1, 2, gridspec_kw={'width_ratios': [1,0]}, figsize=(6,3), facecolor="#FFF9EE")
 draw_courts(ax1,outer_lines=True)
-draw_courts(ax2,outer_lines=True)
 
 
 ax1.set_xlim(-251,251)
@@ -456,36 +393,21 @@ ax1.set_axis_off()
 ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 8})
 ax1.set_facecolor("#FFF9EE")
 
-ax2.set_xlim(-251,251)
-ax2.set_ylim(-50,335)
+
 ax2.set_axis_off()
-ax2.set_title(f"{selected_player} {selected_game_name} - {selected_game_df['WL'].values[0]}",fontdict={'fontsize': 8})
 ax2.set_facecolor("#FFF9EE")
-ax3.set_axis_off()
-ax3.set_facecolor("#FFF9EE")
 
 player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760"
 player_photo=Image.open(urlopen(player_photo_url))
-#legend_img = Image.open('legend.png')
 
 
 
 comparison = compare_player_to_global(df, selected_player)
 plot_comparison(comparison, ax=ax1)
-for index,(x,y,res,value) in game_shotchart.iterrows():
-    if res==1:
-        #ax2.scatter(x,y,color='green',marker='o')
-        ax2.scatter(x,y,facecolors='none', edgecolors='g',zorder=10)
-    else:
-        ax2.scatter(x,y,color='red', marker="x",zorder=9)
 
 #st.write(get_player_season_averages(selected_player_season_df))
 season_stats = get_player_season_averages(selected_player_season_df)
-game_stats = get_player_game_stats(selected_game_df)
-
-
 season_labels = ["MIN", "PTS", "FG%","3FG%","FT%","TS%"]
-game_labels = ["MIN", "xPTS", "PTS","FG","3FG","FT","TS%"]
 
 
 for i, (num, label) in enumerate(zip(season_stats, season_labels)):
@@ -494,13 +416,6 @@ for i, (num, label) in enumerate(zip(season_stats, season_labels)):
 
     ax1.text(x, -70, num, ha='center', va='center', fontsize=9, color='black', fontweight='bold')
     ax1.text(x, -85, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
-
-for j, (num, label) in enumerate(zip(game_stats, game_labels)):
-    # Calculate x position for each pair
-    x = -190 + 65*j 
-
-    ax2.text(x, -70, num, ha='center', va='center', fontsize=9, color='black', fontweight='bold')
-    ax2.text(x, -85, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
 
 
 image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
@@ -515,36 +430,14 @@ plt.tight_layout()
 
 st.pyplot(figure)
 
-
-
-
 # Button to save and download the figure
 buffer = BytesIO()
 figure.savefig(buffer, format="png", dpi=300, bbox_inches="tight")  # Save the figure to the buffer
 buffer.seek(0)  # Reset the buffer position
 
-game_video_link = f"https://www.nba.com/stats/events?CFID=&CFPARAMS=&ContextMeasure=FGA&EndPeriod=0&EndRange=28800&GameID={selected_game_id}&PlayerID={selected_player_id}&Season=2024-25&TeamID={Team_ID}&flag=3&sct=plot"
-season_video_link = f"https://www.nba.com/stats/events?CFID=&CFPARAMS=&ContextMeasure=FGA&EndPeriod=0&EndRange=28800&PlayerID={selected_player_id}&Season=2024-25&TeamID={Team_ID}&flag=3&sct=plot"
 
-
-c1,c2,c3 = st.columns(3)
-with st.container():
-    c1.write("[Season Film](%s)" % season_video_link)
-    c2.download_button(
+download_button = st.download_button(
         label="Save Graphs",
         data=buffer,
-        file_name=f"{selected_player} shot chart {selected_game_name}.png",
+        file_name=f"{selected_season} {selected_player} shot chart.png",
     )
-    c3.write("[Game Film](%s)" % game_video_link)
-
-
-with st.expander("Legend"):
-    st.write("""
-- Hexagons are drawn in each zone of the court. Their size and color depend on the selected player's performance shooting in these zones.
-Size represents volume (the more a player shoots from there, the bigger the hexagon), and color is quality (red = better than average, blue = worse)
-
-- TS% : Measure of a player's efficiency. Dependant on PTS, FTA and FGA.
-
-- xPTS : How many points a player "should have scored" based on his shot selection and season averages in these zones.
-""")
-    st.image("legend.png")

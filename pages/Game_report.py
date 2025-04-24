@@ -298,40 +298,6 @@ def draw_courts(ax=None, color='black', lw=2, outer_lines=False):
         ax.add_patch(element)
 
     return ax
-
-def plot_comparison(comparison,ax):
-    """
-    Plot the comparison statistic by drawing hexagons.
-    
-    Args:
-        comparison (list of dict): Output from compare_player_to_global.
-        draw_court (function): Function to draw the basketball court.
-        stat (str): Which statistic to plot ('diff_fg' or 'diff_volume').
-        title_suffix (str): Suffix for the plot title.
-    """
-    
-    # Choose colormap and normalization based on statistic.
-    custom_colors = ['#192BC2', '#78C0E0', '#FCDC4D', '#CB793A', '#9A031E']
-
-    cmap = ListedColormap(custom_colors)
-    fg_intervals = np.linspace(-.2, .2, len(custom_colors) + 1)
-    
-        
-    for bin_stat in comparison:
-        x = bin_stat['x_center']
-        y = bin_stat['y_center']
-
-        # Get the player's FG% relative to league average
-        value = bin_stat['diff_fg']
-        
-        size = bin_stat['player_volume'] if not np.isnan(bin_stat['player_volume']) else 0
-        max_hex_size = 10.5
-        color_idx = np.digitize(value, fg_intervals) - 1  # Get the index for the color
-        radius = min(size , max_hex_size) if size>1 else 0
-        hexagon = RegularPolygon((x, y), numVertices=6, radius=radius, orientation=np.radians(0),
-                                 facecolor=cmap(color_idx) if not np.isnan(value) else 'gray', 
-                                 alpha=0.75, edgecolor='k')
-        ax.add_patch(hexagon)    
     
 def get_hex(comparison,x,y):
     index=0
@@ -445,24 +411,17 @@ game_shotchart['SHOT_TYPE'] = game_shotchart['SHOT_TYPE'].apply(lambda x: x[0])
 game_shotchart['LOC_X'] = game_shotchart['LOC_X'].apply(lambda x:-x)
 
 # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
-figure, (ax1, ax2, ax3) = plt.subplots(1, 3, gridspec_kw={'width_ratios': [1, 1,0]}, figsize=(8,3), facecolor="#FFF9EE")
-draw_courts(ax1,outer_lines=True)
+figure, (ax1, ax2) = plt.subplots(1, 3, gridspec_kw={'width_ratios': [1, 0]}, figsize=(6,3), facecolor="#FFF9EE")
 draw_courts(ax2,outer_lines=True)
-
 
 ax1.set_xlim(-251,251)
 ax1.set_ylim(-50,335)
 ax1.set_axis_off()
-ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 8})
+ax1.set_title(f"{selected_player} {selected_game_name} - {selected_game_df['WL'].values[0]}",fontdict={'fontsize': 8})
 ax1.set_facecolor("#FFF9EE")
 
-ax2.set_xlim(-251,251)
-ax2.set_ylim(-50,335)
 ax2.set_axis_off()
-ax2.set_title(f"{selected_player} {selected_game_name} - {selected_game_df['WL'].values[0]}",fontdict={'fontsize': 8})
 ax2.set_facecolor("#FFF9EE")
-ax3.set_axis_off()
-ax3.set_facecolor("#FFF9EE")
 
 player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760"
 player_photo=Image.open(urlopen(player_photo_url))
@@ -471,13 +430,12 @@ player_photo=Image.open(urlopen(player_photo_url))
 
 
 comparison = compare_player_to_global(df, selected_player)
-plot_comparison(comparison, ax=ax1)
 for index,(x,y,res,value) in game_shotchart.iterrows():
     if res==1:
         #ax2.scatter(x,y,color='green',marker='o')
-        ax2.scatter(x,y,facecolors='none', edgecolors='g',zorder=10)
+        ax1.scatter(x,y,facecolors='none', edgecolors='g',zorder=10)
     else:
-        ax2.scatter(x,y,color='red', marker="x",zorder=9)
+        ax1.scatter(x,y,color='red', marker="x",zorder=9)
 
 #st.write(get_player_season_averages(selected_player_season_df))
 season_stats = get_player_season_averages(selected_player_season_df)
@@ -488,24 +446,17 @@ season_labels = ["MIN", "PTS", "FG%","3FG%","FT%","TS%"]
 game_labels = ["MIN", "xPTS", "PTS","FG","3FG","FT","TS%"]
 
 
-for i, (num, label) in enumerate(zip(season_stats, season_labels)):
-    # Calculate x position for each pair
-    x = -170 + 65*i 
-
-    ax1.text(x, -70, num, ha='center', va='center', fontsize=9, color='black', fontweight='bold')
-    ax1.text(x, -85, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
-
 for j, (num, label) in enumerate(zip(game_stats, game_labels)):
     # Calculate x position for each pair
     x = -190 + 65*j 
 
-    ax2.text(x, -70, num, ha='center', va='center', fontsize=9, color='black', fontweight='bold')
-    ax2.text(x, -85, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
+    ax1.text(x, -70, num, ha='center', va='center', fontsize=9, color='black', fontweight='bold')
+    ax1.text(x, -85, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
 
 
-image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
-image_ax.imshow(player_photo)
-image_ax.axis("off")  # Hide axes for the image
+#image_ax = figure.add_axes([0.375, 0.111, 0.23, 0.23])  # [x, y, width, height]
+#image_ax.imshow(player_photo)
+#image_ax.axis("off")  # Hide axes for the image
 
 #legend_ax = figure.add_axes([0.371, 0.80, 0.12, 0.06])  # [x, y, width, height]
 #legend_ax.imshow(legend_img)
@@ -524,12 +475,9 @@ figure.savefig(buffer, format="png", dpi=300, bbox_inches="tight")  # Save the f
 buffer.seek(0)  # Reset the buffer position
 
 game_video_link = f"https://www.nba.com/stats/events?CFID=&CFPARAMS=&ContextMeasure=FGA&EndPeriod=0&EndRange=28800&GameID={selected_game_id}&PlayerID={selected_player_id}&Season=2024-25&TeamID={Team_ID}&flag=3&sct=plot"
-season_video_link = f"https://www.nba.com/stats/events?CFID=&CFPARAMS=&ContextMeasure=FGA&EndPeriod=0&EndRange=28800&PlayerID={selected_player_id}&Season=2024-25&TeamID={Team_ID}&flag=3&sct=plot"
-
 
 c1,c2,c3 = st.columns(3)
 with st.container():
-    c1.write("[Season Film](%s)" % season_video_link)
     c2.download_button(
         label="Save Graphs",
         data=buffer,
@@ -537,14 +485,3 @@ with st.container():
     )
     c3.write("[Game Film](%s)" % game_video_link)
 
-
-with st.expander("Legend"):
-    st.write("""
-- Hexagons are drawn in each zone of the court. Their size and color depend on the selected player's performance shooting in these zones.
-Size represents volume (the more a player shoots from there, the bigger the hexagon), and color is quality (red = better than average, blue = worse)
-
-- TS% : Measure of a player's efficiency. Dependant on PTS, FTA and FGA.
-
-- xPTS : How many points a player "should have scored" based on his shot selection and season averages in these zones.
-""")
-    st.image("legend.png")
