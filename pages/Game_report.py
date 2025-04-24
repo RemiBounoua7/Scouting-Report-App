@@ -419,7 +419,7 @@ draw_courts(ax1,outer_lines=True)
 ax1.set_xlim(-251,251)
 ax1.set_ylim(-50,335)
 ax1.set_axis_off()
-ax1.set_title(f"{selected_player} {selected_game_name} - {selected_game_df['WL'].values[0]}",fontdict={'fontsize': 12})
+ax1.set_title(f"{selected_player} {selected_game_name} - {selected_game_df['WL'].values[0]}",fontdict={'fontsize': 14})
 ax1.set_facecolor("#FFF9EE")
 
 ax2.set_axis_off()
