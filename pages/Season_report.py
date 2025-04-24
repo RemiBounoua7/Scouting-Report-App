@@ -319,13 +319,16 @@ def get_average_ts_percentage(season):
             raise ValueError("Missing required columns in fetched data.")
 
         # Calculate TS% for each player
-        data["TS%"] = data.apply(lambda row: calculate_true_shooting_percentage(row["PTS"], row["FGA"], row["FTA"]), axis=1)
+        # Summing up PTS, FGA, and FTA as if all players were one
+        total_points = data["PTS"].sum()
+        total_fga = data["FGA"].sum()
+        total_fta = data["FTA"].sum()
 
-        # Calculate average TS%
-        average_ts = data["TS%"].mean()
+        # Calculate TS% for the aggregated stats
+        total_ts = calculate_true_shooting_percentage(total_points, total_fga, total_fta)
 
-        print(f"Average True Shooting Percentage (TS%) for the season: {average_ts:.3f}")
-        return average_ts
+        print(f"Average True Shooting Percentage (TS%) for the season: {total_ts:.3f}")
+        return total_ts
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
