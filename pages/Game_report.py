@@ -188,6 +188,7 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
         'norm_volumes': norm_volumes,
         'fg_percentages': fg_percentages
     }
+    plt.close()
     return stats_dict
 
 def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE_FLAG',
