@@ -411,8 +411,8 @@ game_shotchart['SHOT_TYPE'] = game_shotchart['SHOT_TYPE'].apply(lambda x: x[0])
 game_shotchart['LOC_X'] = game_shotchart['LOC_X'].apply(lambda x:-x)
 
 # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
-figure, (ax1, ax2) = plt.subplots(1, 3, gridspec_kw={'width_ratios': [1, 0]}, figsize=(6,3), facecolor="#FFF9EE")
-draw_courts(ax2,outer_lines=True)
+figure, (ax1, ax2) = plt.subplots(1, 2, gridspec_kw={'width_ratios': [1, 0]}, figsize=(4,3), facecolor="#FFF9EE")
+draw_courts(ax1,outer_lines=True)
 
 ax1.set_xlim(-251,251)
 ax1.set_ylim(-50,335)
