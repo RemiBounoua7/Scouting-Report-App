@@ -327,7 +327,6 @@ def get_average_ts_percentage(season):
         # Calculate TS% for the aggregated stats
         total_ts = calculate_true_shooting_percentage(total_points, total_fga, total_fta)
 
-        print(f"Average True Shooting Percentage (TS%) for the season: {total_ts:.3f}")
         return total_ts
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -367,7 +366,7 @@ def plot_comparison(comparison,ax):
                                  alpha=0.75, edgecolor='k')
         ax.add_patch(hexagon)    
 
-def get_player_season_averages(season_df):
+def get_player_season_averages(season_df,season):
 
     pts = round(season_df['PTS'].mean(),1)
     _2ptFG_PCT = str(int(100*round(season_df['FGM'].sum()/season_df['FGA'].sum(),2)))
@@ -375,9 +374,14 @@ def get_player_season_averages(season_df):
     _FT_PCT = str(int(100*round(season_df['FTM'].sum()/season_df['FTA'].sum(),2)))
     minutes = str(round(season_df['MIN'].mean(),1))
     
-    TS_PCT = str(round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1))
-
-    stats_str =[len(season_df),minutes,str(pts),_2ptFG_PCT,_3ptFG_PCT,_FT_PCT,TS_PCT]
+    TS_PCT = round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1)
+    TS_plus = 100-100*(TS_PCT/get_average_ts_percentage(season))
+    TS_gap=""
+    if TS_plus<0:
+        TS_gap=str(TS_plus)
+    else:
+        TS_gap="+"+str(TS_plus)
+    stats_str =[len(season_df),minutes,str(pts),_2ptFG_PCT,_3ptFG_PCT,_FT_PCT,TS_gap]
      
 
     return stats_str
@@ -400,7 +404,7 @@ df = load_nba_data(
     )
 
 selected_season = f"{selected_year}-{str(selected_year + 1)[-2:]}"
-st.write(get_average_ts_percentage(selected_season))
+
 df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
 # Reverse left-right because of data gathering from the NBA is the other way around.
 df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
@@ -444,8 +448,8 @@ try:
     comparison = compare_player_to_global(df, selected_player)
     plot_comparison(comparison, ax=ax1)
 
-    #st.write(get_player_season_averages(selected_player_season_df))
-    season_stats = get_player_season_averages(selected_player_season_df)
+
+    season_stats = get_player_season_averages(selected_player_season_df,selected_season)
     season_labels = ["GP","MIN/G", "PTS/G", "FG%","3FG%","FT%","TS+"]
 
 
