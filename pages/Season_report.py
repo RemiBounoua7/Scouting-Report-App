@@ -324,7 +324,7 @@ def get_average_ts_percentage(season):
         total_fta = data["FTA"].sum()
 
         # Calculate TS% for the aggregated stats
-        total_ts = calculate_true_shooting_percentage(total_points, total_fga, total_fta)
+        total_ts = 100*calculate_true_shooting_percentage(total_points, total_fga, total_fta)
 
         return total_ts
     except Exception as e:
