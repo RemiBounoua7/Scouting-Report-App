@@ -374,7 +374,7 @@ def get_player_season_averages(season_df,season):
     minutes = str(round(season_df['MIN'].mean(),1))
     
     TS_PCT = round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1)
-    TS_plus = 100-100*(TS_PCT/get_average_ts_percentage(season))
+    TS_plus = 100*(TS_PCT/get_average_ts_percentage(season))-100
     TS_gap=""
     if TS_plus<0:
         TS_gap=str(round(TS_plus))
