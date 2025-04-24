@@ -348,7 +348,7 @@ def get_player_season_averages(season_df):
     return stats_str
 
 
-st.set_page_config(page_title="Scouting Report App",layout='wide')
+st.set_page_config(page_title="Scouting Report App")
 st.write('# Players scouting report app')
 
 selected_year = st.selectbox(
