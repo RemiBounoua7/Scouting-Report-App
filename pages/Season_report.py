@@ -369,7 +369,7 @@ def get_player_season_averages(season_df,season):
 
     pts = round(season_df['PTS'].mean(),1)
     _2ptFG_PCT = str(int(100*round(season_df['FGM'].sum()/season_df['FGA'].sum(),2)))
-    _3ptFG_PCT = str(int(100*round(season_df['FG3M'].sum()/season_df['FG3A'].sum(),2)))
+    _3ptFG_PCT = str(int(100*round(season_df['FG3M'].sum()/season_df['FG3A'].sum(),2))) if season_df['FG3A'].sum()>0 else 0
     _FT_PCT = str(int(100*round(season_df['FTM'].sum()/season_df['FTA'].sum(),2)))
     minutes = str(round(season_df['MIN'].mean(),1))
     
