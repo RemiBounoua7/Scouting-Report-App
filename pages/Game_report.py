@@ -429,9 +429,6 @@ player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected
 player_photo=Image.open(urlopen(player_photo_url))
 #legend_img = Image.open('legend.png')
 
-image_ax = figure.add_axes([0.150, 0.185, 0.21, 0.21])  # [x, y, width, height]
-image_ax.imshow(player_photo)
-image_ax.axis("off")  # Hide axes for the image
 
 
 comparison = compare_player_to_global(df, selected_player)
@@ -458,6 +455,9 @@ for j, (num, label) in enumerate(zip(game_stats, game_labels)):
     ax1.text(x, -82, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
 
 
+image_ax = figure.add_axes([0.150, 0.185, 0.21, 0.21])  # [x, y, width, height]
+image_ax.imshow(player_photo)
+image_ax.axis("off")  # Hide axes for the image
 
 plt.tight_layout()
 
