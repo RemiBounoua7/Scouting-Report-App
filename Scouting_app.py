@@ -332,7 +332,8 @@ def plot_comparison(comparison,ax):
                                  facecolor=cmap(color_idx) if not np.isnan(value) else 'gray', 
                                  alpha=0.75, edgecolor='k')
         ax.add_patch(hexagon)    
-    
+
+        
 def get_hex(comparison,x,y):
     index=0
     res=((comparison[0]['x_center']-x)**2+(comparison[0]['y_center']-y)**2)**.5
@@ -355,6 +356,7 @@ def get_expected_pts(comparison,shotchart,season_df,game_df):
 
     x_pts += game_df['FTA'].values[0] *(season_df['FTM'].sum()/season_df['FTA'].sum())
     return round(x_pts,1)
+
 
 def get_player_season_averages(season_df):
 
@@ -386,6 +388,7 @@ def get_player_game_stats(game_df):
 
 
 st.set_page_config(page_title="Scouting Report App",layout='wide')
+
 st.write('# Players scouting report app')
 
 
