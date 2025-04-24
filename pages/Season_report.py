@@ -12,7 +12,7 @@ from io import BytesIO, TextIOWrapper
 import csv
 import streamlit as st
 import matplotlib
-from nba_api.stats.endpoints import playergamelog
+from nba_api.stats.endpoints import playergamelog,leaguedashplayerstats
 from PIL import Image
 
 matplotlib.use('Agg')
@@ -298,6 +298,37 @@ def draw_courts(ax=None, color='black', lw=2, outer_lines=False):
 
     return ax
 
+def calculate_true_shooting_percentage(points, fga, fta):
+    """Calculate True Shooting Percentage (TS%).
+
+    TS% = Points / (2 * (FGA + 0.44 * FTA))
+    """
+    return points / (2 * (fga + 0.44 * fta)) if (fga + 0.44 * fta) > 0 else 0
+
+def get_average_ts_percentage(season):
+    """Fetch player statistics and compute average TS%."""
+    try:
+        # Fetching player stats for the current season
+        stats = leaguedashplayerstats.LeagueDashPlayerStats(season=season, season_type_all_star="Regular Season")
+        data = stats.get_data_frames()[0]
+
+        # Ensuring necessary columns are present
+        required_columns = ["PTS", "FGA", "FTA"]
+        if not all(col in data.columns for col in required_columns):
+            raise ValueError("Missing required columns in fetched data.")
+
+        # Calculate TS% for each player
+        data["TS%"] = data.apply(lambda row: calculate_true_shooting_percentage(row["PTS"], row["FGA"], row["FTA"]), axis=1)
+
+        # Calculate average TS%
+        average_ts = data["TS%"].mean()
+
+        print(f"Average True Shooting Percentage (TS%) for the season: {average_ts:.3f}")
+        return average_ts
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
 def plot_comparison(comparison,ax):
     """
     Plot the comparison statistic by drawing hexagons.
@@ -365,7 +396,7 @@ df = load_nba_data(
     )
 
 selected_season = f"{selected_year}-{str(selected_year + 1)[-2:]}"
-
+st.write(get_average_ts_percentage(selected_season))
 df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
 # Reverse left-right because of data gathering from the NBA is the other way around.
 df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
