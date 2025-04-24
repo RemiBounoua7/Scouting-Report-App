@@ -378,64 +378,63 @@ selected_player = st.selectbox(
 
 try:
     selected_player_id = df[df['PLAYER_NAME']==selected_player].iloc[0]['PLAYER_ID']
+
+    selected_player_regular_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season=selected_season).get_data_frames()[0]
+    selected_player_playoffs_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season=selected_season,season_type_all_star="Playoffs").get_data_frames()[0]
+    selected_player_season_df = pd.concat([selected_player_playoffs_df,selected_player_regular_season_df])
+    selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
+
+    # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
+    figure, ax = plt.subplots(2, 1, gridspec_kw={'height_ratios': [1, 0]}, figsize=(7,6),facecolor="#FFF9EE")
+    ax1,ax2=ax[0],ax[1]
+
+    draw_courts(ax1,outer_lines=True)
+
+
+    ax1.set_xlim(-251,251)
+    ax1.set_ylim(-50,335)
+    ax1.set_axis_off()
+    ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 8})
+    ax1.set_facecolor("#FFF9EE")
+
+
+    ax2.set_axis_off()
+    ax2.set_facecolor("#FFF9EE")
+
+    player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760"
+    player_photo=Image.open(urlopen(player_photo_url))
+
+
+
+    comparison = compare_player_to_global(df, selected_player)
+    plot_comparison(comparison, ax=ax1)
+
+    #st.write(get_player_season_averages(selected_player_season_df))
+    season_stats = get_player_season_averages(selected_player_season_df)
+    season_labels = ["MIN", "PTS", "FG%","3FG%","FT%","TS+"]
+
+
+    for i, (num, label) in enumerate(zip(season_stats, season_labels)):
+        # Calculate x position for each pair
+        x = -220 + 70*i
+
+        ax1.text(x, -70, num, ha='center', va='center', fontsize=12, color='black', fontweight='bold')
+        ax1.text(x, -82, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
+
+
+    image_ax = figure.add_axes([0.155, 0.166, 0.21, 0.21])  # [x, y, width, height]
+    image_ax.imshow(player_photo)
+    image_ax.axis("off")  # Hide axes for the image
+
+    #legend_ax = figure.add_axes([0.371, 0.80, 0.12, 0.06])  # [x, y, width, height]
+    #legend_ax.imshow(legend_img)
+    #legend_ax.axis("off")  # Hide axes for the image
+
+    plt.tight_layout()
+
+    st.pyplot(figure)
 except:
     st.write("Select a player")
-
-selected_player_regular_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season=selected_season).get_data_frames()[0]
-selected_player_playoffs_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season=selected_season,season_type_all_star="Playoffs").get_data_frames()[0]
-selected_player_season_df = pd.concat([selected_player_playoffs_df,selected_player_regular_season_df])
-selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
-
-# Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
-figure, ax = plt.subplots(2, 1, gridspec_kw={'height_ratios': [1, 0]}, figsize=(7,6),facecolor="#FFF9EE")
-ax1,ax2=ax[0],ax[1]
-
-draw_courts(ax1,outer_lines=True)
-
-
-ax1.set_xlim(-251,251)
-ax1.set_ylim(-50,335)
-ax1.set_axis_off()
-ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 8})
-ax1.set_facecolor("#FFF9EE")
-
-
-ax2.set_axis_off()
-ax2.set_facecolor("#FFF9EE")
-
-player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760"
-player_photo=Image.open(urlopen(player_photo_url))
-
-
-
-comparison = compare_player_to_global(df, selected_player)
-plot_comparison(comparison, ax=ax1)
-
-#st.write(get_player_season_averages(selected_player_season_df))
-season_stats = get_player_season_averages(selected_player_season_df)
-season_labels = ["MIN", "PTS", "FG%","3FG%","FT%","TS+"]
-
-
-for i, (num, label) in enumerate(zip(season_stats, season_labels)):
-    # Calculate x position for each pair
-    x = -220 + 70*i
-
-    ax1.text(x, -70, num, ha='center', va='center', fontsize=12, color='black', fontweight='bold')
-    ax1.text(x, -82, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
-
-
-image_ax = figure.add_axes([0.155, 0.166, 0.21, 0.21])  # [x, y, width, height]
-image_ax.imshow(player_photo)
-image_ax.axis("off")  # Hide axes for the image
-
-#legend_ax = figure.add_axes([0.371, 0.80, 0.12, 0.06])  # [x, y, width, height]
-#legend_ax.imshow(legend_img)
-#legend_ax.axis("off")  # Hide axes for the image
-
-plt.tight_layout()
-
-st.pyplot(figure)
-
 # Button to save and download the figure
 buffer = BytesIO()
 figure.savefig(buffer, format="png", dpi=300, bbox_inches="tight")  # Save the figure to the buffer
