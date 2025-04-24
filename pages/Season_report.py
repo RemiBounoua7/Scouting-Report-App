@@ -394,7 +394,7 @@ try:
     ax1.set_xlim(-251,251)
     ax1.set_ylim(-50,335)
     ax1.set_axis_off()
-    ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 8})
+    ax1.set_title(f"{selected_player} Shot Chart (2024-25 RS)",fontdict={'fontsize': 12})
     ax1.set_facecolor("#FFF9EE")
 
 
@@ -433,16 +433,18 @@ try:
     plt.tight_layout()
 
     st.pyplot(figure)
+
+    # Button to save and download the figure
+    buffer = BytesIO()
+    figure.savefig(buffer, format="png", dpi=300, bbox_inches="tight")  # Save the figure to the buffer
+    buffer.seek(0)  # Reset the buffer position
+
+
+    download_button = st.download_button(
+            label="Save Graphs",
+            data=buffer,
+            file_name=f"{selected_season} {selected_player} shot chart.png",
+        )
+
 except:
     st.write("Select a player")
-# Button to save and download the figure
-buffer = BytesIO()
-figure.savefig(buffer, format="png", dpi=300, bbox_inches="tight")  # Save the figure to the buffer
-buffer.seek(0)  # Reset the buffer position
-
-
-download_button = st.download_button(
-        label="Save Graphs",
-        data=buffer,
-        file_name=f"{selected_season} {selected_player} shot chart.png",
-    )
