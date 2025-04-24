@@ -447,10 +447,10 @@ game_labels = ["MIN", "PTS", "xPTS","FG","3FG","FT","TS%"]
 
 for j, (num, label) in enumerate(zip(game_stats, game_labels)):
     # Calculate x position for each pair
-    x = -190 + 65*j 
+    x = -200 + 70*j 
 
-    ax1.text(x, -70, num, ha='center', va='center', fontsize=13, color='black', fontweight='bold')
-    ax1.text(x, -85, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
+    ax1.text(x, -70, num, ha='center', va='center', fontsize=12, color='black', fontweight='bold')
+    ax1.text(x, -82, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
 
 
 image_ax = figure.add_axes([0.135, 0.110, 0.21, 0.21])  # [x, y, width, height]
