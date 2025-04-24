@@ -385,7 +385,7 @@ try:
     selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
 
     # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
-    figure, ax = plt.subplots(2, 1, gridspec_kw={'height_ratios': [1, 0]}, figsize=(7,6),facecolor="#FFF9EE")
+    figure, ax = plt.subplots(2, 1, gridspec_kw={'height_ratios': [1, 0]},facecolor="#FFF9EE")
     ax1,ax2=ax[0],ax[1]
 
     draw_courts(ax1,outer_lines=True)
