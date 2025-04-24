@@ -416,7 +416,7 @@ try:
 
     for i, (num, label) in enumerate(zip(season_stats, season_labels)):
         # Calculate x position for each pair
-        x = -220 + 70*i
+        x = -210 + 70*i
 
         ax1.text(x, -70, num, ha='center', va='center', fontsize=15, color='black', fontweight='bold')
         ax1.text(x, -82, label, ha='center', va='center', fontsize=7, color='black', fontweight='medium')
