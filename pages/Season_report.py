@@ -414,10 +414,10 @@ season_labels = ["MIN", "PTS", "FG%","3FG%","FT%","TS%"]
 
 for i, (num, label) in enumerate(zip(season_stats, season_labels)):
     # Calculate x position for each pair
-    x = -170 + 65*i 
+    x = -190 + 65*i 
 
-    ax1.text(x, -70, num, ha='center', va='center', fontsize=9, color='black', fontweight='bold')
-    ax1.text(x, -85, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
+    ax1.text(x, -70, num, ha='center', va='center', fontsize=12, color='black', fontweight='bold')
+    ax1.text(x, -80, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
 
 
 image_ax = figure.add_axes([0.135, 0.110, 0.21, 0.21])  # [x, y, width, height]

@@ -345,7 +345,7 @@ def get_player_game_stats(game_df):
 
     TS_PCT = str(round(50*(pts)/(game_df['FGA'].values[0]+.44*game_df['FTA'].values[0]),1))
 
-    stats_str=[minutes,x_pts,str(pts), f"{game_df['FGM'].values[0]}/{game_df['FGA'].values[0]}",f"{game_df['FG3M'].values[0]}/{game_df['FG3A'].values[0]}",f"{game_df['FTM'].values[0]}/{game_df['FTA'].values[0]}",TS_PCT]
+    stats_str=[minutes,str(pts), x_pts,f"{game_df['FGM'].values[0]}/{game_df['FGA'].values[0]}",f"{game_df['FG3M'].values[0]}/{game_df['FG3A'].values[0]}",f"{game_df['FTM'].values[0]}/{game_df['FTA'].values[0]}",TS_PCT]
     
     return stats_str
 
@@ -442,15 +442,14 @@ season_stats = get_player_season_averages(selected_player_season_df)
 game_stats = get_player_game_stats(selected_game_df)
 
 
-season_labels = ["MIN", "PTS", "FG%","3FG%","FT%","TS%"]
-game_labels = ["MIN", "xPTS", "PTS","FG","3FG","FT","TS%"]
+game_labels = ["MIN", "PTS", "xPTS","FG","3FG","FT","TS%"]
 
 
 for j, (num, label) in enumerate(zip(game_stats, game_labels)):
     # Calculate x position for each pair
     x = -190 + 65*j 
 
-    ax1.text(x, -70, num, ha='center', va='center', fontsize=11, color='black', fontweight='bold')
+    ax1.text(x, -70, num, ha='center', va='center', fontsize=12, color='black', fontweight='bold')
     ax1.text(x, -80, label, ha='center', va='center', fontsize=5, color='black', fontweight='medium')
 
 
