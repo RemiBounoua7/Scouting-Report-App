@@ -449,7 +449,7 @@ try:
 
 
     season_stats = get_player_season_averages(selected_player_season_df,selected_season)
-    season_labels = ["GP","MIN/G", "PTS/G", "FG%","3FG%","FT%","TS+"]
+    season_labels = ["GP","MIN", "PTS", "FG%","3FG%","FT%","TS+"]
 
 
     for i, (num, label) in enumerate(zip(season_stats, season_labels)):
@@ -497,7 +497,7 @@ with st.expander("Glossary"):
 - FG% : Average Field Goal Percentage (Shots Made / Shots Taken)
 - 3FG% : Average 3P Percentage (3P made / 3P taken)
 - FT% : Average Free Throw Percentage (Free Throws Made / Free Throws Taken)
-- TS+ : True Shooting Percentage (Measure of player's efficiency. Dependant on PTS, FGA and FTA)
+- TS+ : Player's efficiency relative to league average. +X is X% better than average, -Y is Y% worse.
     """)
     st.write('Color Legend :')
     st.image('legend.png')

@@ -488,7 +488,7 @@ with st.expander("More Info"):
 - FG : Shots Made / Shots Taken
 - 3FG : 3P made / 3P taken
 - FT : Free Throws Made / Free Throws Taken
-- TS+ : Player's efficiency relative to league average. +X is X% better than average, -Y is Y% worse.
+- TS% : True Shooting Percentage (Measure of player's efficiency. Dependant on PTS, FGA and FTA)
 """)
     
     st.write("""Things to look for in xPTS :
