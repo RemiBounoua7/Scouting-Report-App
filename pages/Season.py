@@ -488,3 +488,16 @@ try:
 
 except:
     st.write("Select a player")
+
+with st.expander("Glossary"):
+    st.write("""
+- GP : Games Played
+- MIN : Average Minutes Played per Game
+- PTS : Average Points scored per Game
+- FG% : Average Field Goal Percentage (Shots Made / Shots Taken)
+- 3FG% : Average 3P Percentage (3P made / 3P taken)
+- FT% : Average Free Throw Percentage (Free Throws Made / Free Throws Taken)
+- TS+ : True Shooting Percentage (Measure of player's efficiency. Dependant on PTS, FGA and FTA)
+    """)
+    st.write('Color Legend :')
+    st.image('legend.png')

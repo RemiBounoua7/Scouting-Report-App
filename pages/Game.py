@@ -480,3 +480,23 @@ with st.container():
     )
     c3.write("[Game Film](%s)" % game_video_link)
 
+with st.expander("More Info"):
+    st.write("""Glossary:
+- MIN : Minutes Played
+- PTS : Points scored
+- xPTS : Expected Points (Measure of the player's expected points scored, based on the shot he took and his averages from these zones in the 2024-25 RS. Learn more in *Tings to look for*)
+- FG : Shots Made / Shots Taken
+- 3FG : 3P made / 3P taken
+- FT : Free Throws Made / Free Throws Taken
+- TS+ : Player's efficiency relative to league average. +X is X% better than average, -Y is Y% worse.
+""")
+    
+    st.write("""Things to look for in xPTS :
+- PTS > xPTS suggest a Hot night. Better than average performance
+
+- PTS < xPTS is Ice cold. A night to forget
+
+- High xPTS / (FGA+FTA) means the player took great shots, shots he usually makes, the defense couldn't stop him from getting to his spots
+
+- Low xPTS / (FGA+FTA) is the opposite. Took a lot of shots but the model didn't expect much out of those. The defense forced him to go out of his comfort zone.
+    """)
