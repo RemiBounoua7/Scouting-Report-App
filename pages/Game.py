@@ -351,8 +351,7 @@ def get_player_game_stats(game_df):
 
 
 
-st.set_page_config(page_title="Scouting Report App")
-st.write('# Players scouting report app')
+st.write('# Game Scouting Report')
 
 
 df = load_nba_data(

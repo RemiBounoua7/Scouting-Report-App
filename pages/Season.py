@@ -20,7 +20,7 @@ matplotlib.use('Agg')
 
 
 @st.cache_data
-def load_nba_data(path: Union[Path, str] = Path.cwd(),
+def load_data(path: Union[Path, str] = Path.cwd(),
                   seasons: Union[Sequence, int] = range(1996, 2024),
                   data: Union[Sequence, str] = ("datanba", "nbastats", "pbpstats",
                                                 "shotdetail", "cdnnba", "nbastatsv3"),
@@ -386,8 +386,7 @@ def get_player_season_averages(season_df,season):
     return stats_str
 
 
-st.set_page_config(page_title="Scouting Report App")
-st.write('# Players scouting report app')
+st.write('# Season Scouting Report')
 
 selected_year = st.selectbox(
     "Select a Season",
@@ -395,7 +394,7 @@ selected_year = st.selectbox(
 )
 
 
-df = load_nba_data(
+df = load_data(
         seasons=selected_year,
         data="shotdetail",
         in_memory=True,
@@ -409,7 +408,7 @@ df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
 df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
 
 selected_player = st.selectbox(
-    "Select the player",
+    "Select a player",
     sorted(df['PLAYER_NAME'].unique()),
     index=None,
     placeholder="Select a player ...")
@@ -417,9 +416,7 @@ selected_player = st.selectbox(
 try:
     selected_player_id = df[df['PLAYER_NAME']==selected_player].iloc[0]['PLAYER_ID']
 
-    selected_player_regular_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season=selected_season).get_data_frames()[0]
-    selected_player_playoffs_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season=selected_season,season_type_all_star="Playoffs").get_data_frames()[0]
-    selected_player_season_df = pd.concat([selected_player_playoffs_df,selected_player_regular_season_df])
+    selected_player_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season=selected_season).get_data_frames()[0]
     selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
 
     # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
