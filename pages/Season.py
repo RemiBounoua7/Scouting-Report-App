@@ -397,7 +397,7 @@ selected_season = st.selectbox(
     season_list,
 )
 
-
+st.write(selected_season[:4])
 df = load_data(
         seasons=selected_season[:4],
         data="shotdetail",
