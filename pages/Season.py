@@ -359,7 +359,7 @@ def plot_comparison(comparison,ax):
         size = bin_stat['player_volume'] if not np.isnan(bin_stat['player_volume']) else 0
         max_hex_size = 10.5
         color_idx = np.digitize(value, fg_intervals) - 1  # Get the index for the color
-        radius = min(size , max_hex_size) if size>1 else 0
+        radius = min(size , max_hex_size) if size>2 else 0
         hexagon = RegularPolygon((x, y), numVertices=6, radius=radius, orientation=np.radians(0),
                                  facecolor=cmap(color_idx) if not np.isnan(value) else 'gray', 
                                  alpha=0.75, edgecolor='k')
@@ -409,7 +409,7 @@ df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
 df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
 
 selected_player = st.selectbox(
-    "Select a player",
+    "Select a Player",
     sorted(df['PLAYER_NAME'].unique()),
     index=None,
     placeholder="Select a player ...")
