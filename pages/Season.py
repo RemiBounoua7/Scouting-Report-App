@@ -387,21 +387,23 @@ def get_player_season_averages(season_df,season):
 
 
 st.write('# Season Scouting Report')
+season_list = []
 
-selected_year = st.selectbox(
+for year in range(2024,1995,-1):
+    season_list.append(f"{year}-{str(year + 1)[-2:]}")
+
+selected_season = st.selectbox(
     "Select a Season",
-    range(2024,1995,-1),
+    season_list,
 )
 
 
 df = load_data(
-        seasons=selected_year,
+        seasons=selected_season[:4],
         data="shotdetail",
         in_memory=True,
         seasontype = 'rg'
     )
-
-selected_season = f"{selected_year}-{str(selected_year + 1)[-2:]}"
 
 df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
 # Reverse left-right because of data gathering from the NBA is the other way around.
