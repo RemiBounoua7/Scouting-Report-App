@@ -500,14 +500,3 @@ with st.expander("Glossary"):
     st.write('Color Legend :')
     st.image('legend.png')
 
-df2 = pd.DataFrame(
-    {
-        "Command": ["**st.table**", "*st.dataframe*"],
-        "Type": ["`static`", "`interactive`"],
-        "Docs": [
-            "[:rainbow[docs]](https://docs.streamlit.io/develop/api-reference/data/st.dataframe)",
-            "[:book:](https://docs.streamlit.io/develop/api-reference/data/st.table)",
-        ],
-    }
-)
-st.table(df2)
