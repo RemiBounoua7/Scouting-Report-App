@@ -14,6 +14,7 @@ import streamlit as st
 import matplotlib
 from nba_api.stats.endpoints import playergamelog,leaguedashplayerstats
 from PIL import Image
+import re
 
 matplotlib.use('Agg')
 
@@ -24,7 +25,7 @@ def load_data(path: Union[Path, str] = Path.cwd(),
                   seasons: Union[Sequence, int] = range(1996, 2024),
                   data: Union[Sequence, str] = ("datanba", "nbastats", "pbpstats",
                                                 "shotdetail", "cdnnba", "nbastatsv3"),
-                  seasontype: str = 'rg',
+                  seasontype: Union[Sequence, str] = ('rg','po'),
                   league: str = 'nba',
                   untar: bool = False,
                   in_memory: bool = False,
@@ -392,32 +393,43 @@ season_list = []
 for year in range(2024,1995,-1):
     season_list.append(f"{year}-{str(year + 1)[-2:]}")
 
-selected_season = st.selectbox(
-    "Select a Season",
-    season_list,
-)
-
-df = load_data(
+c1,c2 = st.columns(2)
+with st.container():
+    selected_season = c1.selectbox(
+        "Select a Season",
+        season_list,
+    )
+    season_type = c2.selectbox(
+        "Regular Season or PlayOffs",
+        ["Regular Season","Play Offs"]
+    )
+ 
+data = load_data(
         seasons=int(selected_season[:4]),
         data="shotdetail",
         in_memory=True,
-        seasontype = 'rg'
+        seasontype = "rg" if season_type=="Regular Season" else "po"
     )
 
-df=df[['PLAYER_NAME','LOC_X','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
-# Reverse left-right because of data gathering from the NBA is the other way around.
-df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
+try :
+    df=data[['PLAYER_NAME','LOC_X','ACTION_TYPE', 'SHOT_TYPE','LOC_Y','SHOT_MADE_FLAG','PLAYER_ID']]
+    # Reverse left-right because of data gathering from the NBA is the other way around.
+    df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
 
-selected_player = st.selectbox(
-    "Select a Player",
-    sorted(df['PLAYER_NAME'].unique()),
-    index=None,
-    placeholder="Select a player ...")
+    selected_player = st.selectbox(
+        "Select a Player",
+        sorted(df['PLAYER_NAME'].unique()),
+        index=None,
+        placeholder="Select a player ...")
+
+except:
+    st.write(f"### No data for {selected_season} {season_type} (yet)")
+
 
 try:
     selected_player_id = df[df['PLAYER_NAME']==selected_player].iloc[0]['PLAYER_ID']
 
-    selected_player_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season=selected_season).get_data_frames()[0]
+    selected_player_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season=selected_season).get_data_frames()[0] if season_type=="Regular Season" else playergamelog.PlayerGameLog(player_id=selected_player_id, season=selected_season, season_type_all_star="Playoffs").get_data_frames()[0] 
     selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
 
     # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
@@ -430,7 +442,11 @@ try:
     ax1.set_xlim(-251,251)
     ax1.set_ylim(-50,335)
     ax1.set_axis_off()
-    ax1.set_title(f"{selected_player} Shot Chart ({selected_season} RS)",fontdict={'fontsize': 14})
+    ax1.set_title(f"{selected_player}",fontdict={'fontsize': 14})
+
+    subtitle = f"{selected_season} " + "RS" if season_type=="Regular Season" else f"{selected_season}" + " PO"
+    ax1.text(0, 320, subtitle, ha='center', va='center', color='grey')
+
     ax1.set_facecolor("#FFF9EE")
 
 
