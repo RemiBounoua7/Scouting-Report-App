@@ -487,7 +487,7 @@ try :
 except:
     st.write('')
 with st.expander("More Info"):
-    st.write("""Glossary:
+    st.write("""#### Glossary:
 - MIN : Minutes Played
 - PTS : Points scored
 - xPTS : Expected Points (Measure of the player's expected points scored, based on the shot he took and his averages from these zones in the 2024-25 RS. Learn more in *Tings to look for*)
@@ -497,7 +497,7 @@ with st.expander("More Info"):
 - TS% : True Shooting Percentage (Measure of player's efficiency. Dependant on PTS, FGA and FTA)
 """)
     
-    st.write("""Things to look for in xPTS :
+    st.write("""#### Things to look for in xPTS :
 - PTS > xPTS suggest a Hot night. Better than average performance
 
 - PTS < xPTS is Ice cold. A night to forget
