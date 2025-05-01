@@ -368,108 +368,110 @@ df['LOC_X'] = df['LOC_X'].apply(lambda x:-x)
 selected_player = st.selectbox(
     "Select the player",
     sorted(df['PLAYER_NAME'].unique()),
-    index=487,
+    index=None,
     placeholder="Select a player ...")
 
-selected_player_id = df[df['PLAYER_NAME']==selected_player].iloc[0]['PLAYER_ID']
+try :
+    selected_player_id = df[df['PLAYER_NAME']==selected_player].iloc[0]['PLAYER_ID']
 
-selected_player_regular_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season='2024-25').get_data_frames()[0]
-selected_player_playoffs_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season='2024-25',season_type_all_star="Playoffs").get_data_frames()[0]
-selected_player_season_df = pd.concat([selected_player_playoffs_df,selected_player_regular_season_df])
-selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
+    selected_player_regular_season_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season='2024-25').get_data_frames()[0]
+    selected_player_playoffs_df = playergamelog.PlayerGameLog(player_id=selected_player_id, season='2024-25',season_type_all_star="Playoffs").get_data_frames()[0]
+    selected_player_season_df = pd.concat([selected_player_playoffs_df,selected_player_regular_season_df])
+    selected_player_season_df['Matchup + Date'] = selected_player_season_df['MATCHUP'].apply(lambda x: x[4:]) + " - " + selected_player_season_df['GAME_DATE']
 
-selected_game_name = st.selectbox(
-    "Pick a Game",
-    selected_player_season_df['Matchup + Date'],
-    index=0,
-    placeholder="Select game ...",
-)
+    selected_game_name = st.selectbox(
+        "Pick a Game",
+        selected_player_season_df['Matchup + Date'],
+        index=0,
+        placeholder="Select game ...",
+    )
 
-selected_game_df = selected_player_season_df[selected_player_season_df['Matchup + Date']==selected_game_name]
-selected_game_id = selected_game_df['Game_ID'].values[0]
+    selected_game_df = selected_player_season_df[selected_player_season_df['Matchup + Date']==selected_game_name]
+    selected_game_id = selected_game_df['Game_ID'].values[0]
 
-Team_ID = teams.find_team_by_abbreviation(selected_game_df['MATCHUP'].values[0][:3])['id']
+    Team_ID = teams.find_team_by_abbreviation(selected_game_df['MATCHUP'].values[0][:3])['id']
 
-rs_game_shotchart = shotchartdetail.ShotChartDetail(
-    player_id=selected_player_id,
-    team_id=Team_ID,
-    game_id_nullable=selected_game_id,
-    context_measure_simple='FGA',
-).get_data_frames()[0]
-po_game_shotchart = shotchartdetail.ShotChartDetail(
-    player_id=selected_player_id,
-    team_id=Team_ID,
-    game_id_nullable=selected_game_id,
-    context_measure_simple='FGA',
-    season_type_all_star='Playoffs'
-).get_data_frames()[0]
-game_shotchart = pd.concat([po_game_shotchart,rs_game_shotchart])
+    rs_game_shotchart = shotchartdetail.ShotChartDetail(
+        player_id=selected_player_id,
+        team_id=Team_ID,
+        game_id_nullable=selected_game_id,
+        context_measure_simple='FGA',
+    ).get_data_frames()[0]
+    po_game_shotchart = shotchartdetail.ShotChartDetail(
+        player_id=selected_player_id,
+        team_id=Team_ID,
+        game_id_nullable=selected_game_id,
+        context_measure_simple='FGA',
+        season_type_all_star='Playoffs'
+    ).get_data_frames()[0]
+    game_shotchart = pd.concat([po_game_shotchart,rs_game_shotchart])
 
-game_shotchart=game_shotchart[['LOC_X','LOC_Y','SHOT_MADE_FLAG', 'SHOT_TYPE']]
-game_shotchart['SHOT_TYPE'] = game_shotchart['SHOT_TYPE'].apply(lambda x: x[0])
-game_shotchart['LOC_X'] = game_shotchart['LOC_X'].apply(lambda x:-x)
+    game_shotchart=game_shotchart[['LOC_X','LOC_Y','SHOT_MADE_FLAG', 'SHOT_TYPE']]
+    game_shotchart['SHOT_TYPE'] = game_shotchart['SHOT_TYPE'].apply(lambda x: x[0])
+    game_shotchart['LOC_X'] = game_shotchart['LOC_X'].apply(lambda x:-x)
 
-# Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
-figure, ax = plt.subplots(2, 1, gridspec_kw={'height_ratios': [1, 0]}, figsize=(7,6),facecolor="#FFF9EE")
-ax1,ax2=ax[0],ax[1]
+    # Don't ask me why, but the hexbins density get plot on the last ax. So we circumvent that by creating empty graphs (in a lower row not to mess with our courts length) to plot it in.
+    figure, ax = plt.subplots(2, 1, gridspec_kw={'height_ratios': [1, 0]}, figsize=(7,6),facecolor="#FFF9EE")
+    ax1,ax2=ax[0],ax[1]
 
-draw_courts(ax1,outer_lines=True)
+    draw_courts(ax1,outer_lines=True)
 
-ax1.set_xlim(-251,251)
-ax1.set_ylim(-50,335)
-ax1.set_axis_off()
-ax1.set_title(f"{selected_player} {selected_game_name} - {selected_game_df['WL'].values[0]}",fontdict={'fontsize': 14})
-ax1.set_facecolor("#FFF9EE")
+    ax1.set_xlim(-251,251)
+    ax1.set_ylim(-50,335)
+    ax1.set_axis_off()
+    ax1.set_title(f"{selected_player} {selected_game_name} - {selected_game_df['WL'].values[0]}",fontdict={'fontsize': 14})
+    ax1.set_facecolor("#FFF9EE")
 
-ax2.set_axis_off()
-ax2.set_facecolor("#FFF9EE")
+    ax2.set_axis_off()
+    ax2.set_facecolor("#FFF9EE")
 
-player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760"
-player_photo=Image.open(urlopen(player_photo_url))
-#legend_img = Image.open('legend.png')
-
-
-
-comparison = compare_player_to_global(df, selected_player)
-for index,(x,y,res,value) in game_shotchart.iterrows():
-    if res==1:
-        #ax2.scatter(x,y,color='green',marker='o')
-        ax1.scatter(x,y,facecolors='none', edgecolors='g',zorder=10, s=70)
-    else:
-        ax1.scatter(x,y,color='red', marker="x",zorder=9, s=70)
-
-#st.write(get_player_season_averages(selected_player_season_df))
-season_stats = get_player_season_averages(selected_player_season_df)
-game_stats = get_player_game_stats(selected_game_df)
+    player_photo_url = f"https://cdn.nba.com/headshots/nba/latest/1040x760/{selected_player_id}.png?imwidth=1040&imheight=760"
+    player_photo=Image.open(urlopen(player_photo_url))
+    #legend_img = Image.open('legend.png')
 
 
-game_labels = ["MIN", "PTS", "xPTS","FG","3FG","FT","TS%"]
+
+    comparison = compare_player_to_global(df, selected_player)
+    for index,(x,y,res,value) in game_shotchart.iterrows():
+        if res==1:
+            #ax2.scatter(x,y,color='green',marker='o')
+            ax1.scatter(x,y,facecolors='none', edgecolors='g',zorder=10, s=70)
+        else:
+            ax1.scatter(x,y,color='red', marker="x",zorder=9, s=70)
+
+    #st.write(get_player_season_averages(selected_player_season_df))
+    season_stats = get_player_season_averages(selected_player_season_df)
+    game_stats = get_player_game_stats(selected_game_df)
 
 
-for j, (num, label) in enumerate(zip(game_stats, game_labels)):
-    # Calculate x position for each pair
-    x = -220 + 70*j 
-
-    ax1.text(x, -70, num, ha='center', va='center', fontsize=15, color='black', fontweight='bold')
-    ax1.text(x, -82, label, ha='center', va='center', fontsize=7, color='black', fontweight='medium')
+    game_labels = ["MIN", "PTS", "xPTS","FG","3FG","FT","TS%"]
 
 
-image_ax = figure.add_axes([0.155, 0.166, 0.21, 0.21])  # [x, y, width, height]
-image_ax.imshow(player_photo)
-image_ax.axis("off")  # Hide axes for the image
+    for j, (num, label) in enumerate(zip(game_stats, game_labels)):
+        # Calculate x position for each pair
+        x = -220 + 70*j 
 
-plt.tight_layout()
+        ax1.text(x, -70, num, ha='center', va='center', fontsize=15, color='black', fontweight='bold')
+        ax1.text(x, -82, label, ha='center', va='center', fontsize=7, color='black', fontweight='medium')
 
-st.pyplot(figure)
+
+    image_ax = figure.add_axes([0.155, 0.166, 0.21, 0.21])  # [x, y, width, height]
+    image_ax.imshow(player_photo)
+    image_ax.axis("off")  # Hide axes for the image
+
+    plt.tight_layout()
+
+    st.pyplot(figure)
 
 
-# Button to save and download the figure
-buffer = BytesIO()
-figure.savefig(buffer, format="png", dpi=300, bbox_inches="tight")  # Save the figure to the buffer
-buffer.seek(0)  # Reset the buffer position
+    # Button to save and download the figure
+    buffer = BytesIO()
+    figure.savefig(buffer, format="png", dpi=300, bbox_inches="tight")  # Save the figure to the buffer
+    buffer.seek(0)  # Reset the buffer position
 
-game_video_link = f"https://www.nba.com/stats/events?CFID=&CFPARAMS=&ContextMeasure=FGA&EndPeriod=0&EndRange=28800&GameID={selected_game_id}&PlayerID={selected_player_id}&Season=2024-25&TeamID={Team_ID}&flag=3&sct=plot"
-
+    game_video_link = f"https://www.nba.com/stats/events?CFID=&CFPARAMS=&ContextMeasure=FGA&EndPeriod=0&EndRange=28800&GameID={selected_game_id}&PlayerID={selected_player_id}&Season=2024-25&TeamID={Team_ID}&flag=3&sct=plot"
+except:
+    st.write('')
 c1,c2,c3 = st.columns(3)
 with st.container():
     c2.download_button(
