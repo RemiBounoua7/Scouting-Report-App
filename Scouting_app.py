@@ -26,8 +26,8 @@ with st.expander("Show More"):
 
     st.write("""You can see hexagons all accross the court. They represent the shots taken by Lebron this year. The bigger the hexagon, the more shots taken from this exact zone. 
     The color represents the efficiency relative to league average. Navy blue is -10% relative to league average or below, red is +10% and above, yellow is average. 
-    \n\n
-    In this example, you can see Lebron's athleticism and touch make him a force downhill, with both volume and great efficiency at the rim. However, his 3 pointer still needs work, and shows better percentages going right than going left. 
+    """)
+    st.write("""In this example, you can see Lebron's athleticism and touch make him a force downhill, with both volume and great efficiency at the rim. However, his 3 pointer still needs work, and shows better percentages going right than going left. 
     """)
     st.write("""This is how you extract value from these graphs. Save the 2024-25 season graph, check the 2023-24 one and compare zones and percentages. What do you see ? How does his shot regime change ? Did he take less shots from midrange and more 3 ? 
     Did his percentages improve ? What could be the reason he has better percentages going right than left ?
