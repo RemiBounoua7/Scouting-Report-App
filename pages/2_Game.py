@@ -470,17 +470,17 @@ try :
     buffer.seek(0)  # Reset the buffer position
 
     game_video_link = f"https://www.nba.com/stats/events?CFID=&CFPARAMS=&ContextMeasure=FGA&EndPeriod=0&EndRange=28800&GameID={selected_game_id}&PlayerID={selected_player_id}&Season=2024-25&TeamID={Team_ID}&flag=3&sct=plot"
+
+    c1,c2,c3 = st.columns(3)
+    with st.container():
+        c2.download_button(
+            label="Save Graph",
+            data=buffer,
+            file_name=f"{selected_player} shot chart {selected_game_name}.png",
+        )
+        c3.write("[Game Film](%s)" % game_video_link)
 except:
     st.write('')
-c1,c2,c3 = st.columns(3)
-with st.container():
-    c2.download_button(
-        label="Save Graph",
-        data=buffer,
-        file_name=f"{selected_player} shot chart {selected_game_name}.png",
-    )
-    c3.write("[Game Film](%s)" % game_video_link)
-
 with st.expander("More Info"):
     st.write("""Glossary:
 - MIN : Minutes Played
