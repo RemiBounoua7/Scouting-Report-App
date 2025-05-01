@@ -15,7 +15,7 @@ st.write("""This App is divided into 2 tabs : Season and Game.""")
 
 st.write("""#### In the Season Tab, you can visualize any player's  shooting averages in NBA seasons from 1996 onwards.""")
 
-st.write("""Simply select a season, and then the player you want the shotmap of.
+st.write("""Simply select a season and season type (Regular Season / PlayOffs), and then the player you want the shotmap of.
 
 
 If you're new to this kind of data, I'll show you how to look at it with an example from 2024-25 LeBron :""")
