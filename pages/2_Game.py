@@ -477,7 +477,8 @@ try :
             file_name=f"{selected_player} shot chart {selected_game_name}.png",
         )
         c3.write("[Game Film](%s)" % game_video_link)
-except:
+except Exception as inst:
+    print(inst)
     st.write('')
 with st.expander("More Info"):
     st.write("""#### Glossary:
