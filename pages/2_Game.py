@@ -478,7 +478,7 @@ try :
         )
         c3.write("[Game Film](%s)" % game_video_link)
 except Exception as inst:
-    print(inst)
+    st.write(inst)
     st.write('')
 with st.expander("More Info"):
     st.write("""#### Glossary:
