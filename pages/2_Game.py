@@ -320,7 +320,7 @@ def get_player_season_averages(season_df):
     pts = round(season_df['PTS'].mean(),1)
     _2ptFG_PCT = str(int(100*round(season_df['FGM'].sum()/season_df['FGA'].sum(),2))) if season_df['FGA'].sum()>0 else "0"
     _3ptFG_PCT = str(int(100*round(season_df['FG3M'].sum()/season_df['FG3A'].sum(),2))) if season_df['FG3A'].sum()>0 else "0"
-    _FT_PCT = str(int(100*round(season_df['FTM'].sum()/season_df['FTA'].sum(),2))) if season_df['FGA'].sum()>0 else "0"
+    _FT_PCT = str(int(100*round(season_df['FTM'].sum()/season_df['FTA'].sum(),2))) if season_df['FTA'].sum()>0 else "0"
     minutes = str(round(season_df['MIN'].mean(),1))
     
     TS_PCT = str(round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1))
@@ -478,7 +478,7 @@ try :
         )
         c3.write("[Game Film](%s)" % game_video_link)
 except Exception as inst:
-    st.write(inst)
+    print(inst)
     st.write('')
 with st.expander("More Info"):
     st.write("""#### Glossary:
