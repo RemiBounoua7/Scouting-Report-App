@@ -227,22 +227,14 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
         else:
             pvol = 0
             pfg = 0
-
-
-        # For the comparison you can compute differences or ratios. Here we compute differences.
-        diff_fg = pfg - gfg if not np.isnan(pfg) else np.nan
         
         comparison.append({
             'x_center': gx,
             'y_center': gy,
             'player_volume': pvol,
             'player_fg': pfg,
-            'diff_fg': diff_fg
         })
-    comparison = [
-    {key: (0 if np.isnan(value) else value) for key, value in comp.items()}
-    for comp in comparison
-]
+
     return comparison
 
 def draw_courts(ax=None, color='black', lw=2, outer_lines=False):
