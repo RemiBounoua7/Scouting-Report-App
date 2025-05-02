@@ -177,15 +177,11 @@ def calculate_hexbin_stats(df, x_col='LOC_X', y_col='LOC_Y', shot_col='SHOT_MADE
     )
     fg_percentages = [i if i is not None else 0 for i in fg_percentages]   
 
-    # Normalize shot volumes (for this dataset)
-    norm_volumes = volumes / volumes.max() if volumes.max() > 0 else 0
-
 
     stats_dict = {
         'x_centers': x_centers,
         'y_centers': y_centers,
         'volumes': volumes,
-        'norm_volumes': norm_volumes,
         'fg_percentages': fg_percentages
     }
     return stats_dict
@@ -234,14 +230,11 @@ def compare_player_to_global(df, player_name, x_col='LOC_X', y_col='LOC_Y', shot
 
 
         # For the comparison you can compute differences or ratios. Here we compute differences.
-        diff_volume = pvol - gvol if not np.isnan(pvol) else np.nan
         diff_fg = pfg - gfg if not np.isnan(pfg) else np.nan
         
         comparison.append({
             'x_center': gx,
             'y_center': gy,
-            'global_volume': gvol,
-            'global_fg': gfg,
             'player_volume': pvol,
             'player_fg': pfg,
             'diff_fg': diff_fg
@@ -318,16 +311,16 @@ def get_expected_pts(comparison,shotchart,season_df,game_df):
         hex = get_hex(comparison,x,y)
         x_pts += value*comparison[hex]['player_fg']
 
-
-    x_pts += game_df['FTA'].values[0] *(season_df['FTM'].sum()/season_df['FTA'].sum())
+    FT_pct = (season_df['FTM'].sum()/season_df['FTA'].sum()) if season_df['FTA'].sum()>0 else 0
+    x_pts += game_df['FTA'].values[0] * FT_pct
     return round(x_pts,1)
 
 def get_player_season_averages(season_df):
 
     pts = round(season_df['PTS'].mean(),1)
-    _2ptFG_PCT = str(int(100*round(season_df['FGM'].sum()/season_df['FGA'].sum(),2)))
-    _3ptFG_PCT = str(int(100*round(season_df['FG3M'].sum()/season_df['FG3A'].sum(),2)))
-    _FT_PCT = str(int(100*round(season_df['FTM'].sum()/season_df['FTA'].sum(),2)))
+    _2ptFG_PCT = str(int(100*round(season_df['FGM'].sum()/season_df['FGA'].sum(),2))) if season_df['FGA'].sum()>0 else "0"
+    _3ptFG_PCT = str(int(100*round(season_df['FG3M'].sum()/season_df['FG3A'].sum(),2))) if season_df['FG3A'].sum()>0 else "0"
+    _FT_PCT = str(int(100*round(season_df['FTM'].sum()/season_df['FTA'].sum(),2))) if season_df['FGA'].sum()>0 else "0"
     minutes = str(round(season_df['MIN'].mean(),1))
     
     TS_PCT = str(round(50*(pts)/(season_df['FGA'].mean()+0.44*season_df['FTA'].mean()),1))
