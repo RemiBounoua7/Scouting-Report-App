@@ -474,9 +474,9 @@ try:
         ax1.text(x, -82, label, ha='center', va='center', fontsize=7, color='black', fontweight='medium')
 
 
-    #image_ax = figure.add_axes([0.155, 0.166, 0.21, 0.21])  # [x, y, width, height]
-    #image_ax.imshow(player_photo)
-    #image_ax.axis("off")  # Hide axes for the image
+    image_ax = figure.add_axes([0.155, 0.166, 0.21, 0.21])  # [x, y, width, height]
+    image_ax.imshow(player_photo)
+    image_ax.axis("off")  # Hide axes for the image
 
     #legend_ax = figure.add_axes([0.371, 0.80, 0.12, 0.06])  # [x, y, width, height]
     #legend_ax.imshow(legend_img)
