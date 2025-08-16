@@ -500,9 +500,9 @@ try:
             file_name=f"{selected_player} shot chart {selected_season}.png",
         )
 
-except:
+except Exception as e:
     st.write("Select a player")
-
+    st.write(f"Exception: {e}")
 with st.expander("Glossary"):
     st.write("""
 - GP : Games Played
