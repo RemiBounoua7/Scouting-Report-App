@@ -390,7 +390,7 @@ def get_player_season_averages(season_df,season):
 st.write('# Season Scouting Report')
 season_list = []
 
-for year in range(2024,1995,-1):
+for year in range(2025,1995,-1):
     season_list.append(f"{year}-{str(year + 1)[-2:]}")
 
 c1,c2 = st.columns(2)
